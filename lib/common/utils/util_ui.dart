@@ -1,0 +1,97 @@
+
+
+
+
+
+import 'package:core_advn/common/ui/base_page.dart';
+
+class UtilUI {
+
+  static void goBack(BuildContext context, value) => Navigator.of(context).pop(value);
+
+  static void clearAllPages(BuildContext context) {
+    while (Navigator.of(context).canPop()) Navigator.of(context).pop(false);
+  }
+
+  static void goToPage(BuildContext context, dynamic page,
+      {bool clearAllPage = false, bool hasBack = false, Function? callback}) {
+    if (hasBack) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => page)).then((value) {
+        if (callback != null && value != null) callback(value);
+      });
+    } else {
+      if (clearAllPage) clearAllPages(context);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => page));
+    }
+  }
+  static bool checkResponse(BuildContext context, BaseResponse response, {bool showError = true, bool passString = false}) {
+    if (response.checkTimeout()) {
+      // showCustomAlertDialog(
+      //     context, MultiLanguage.get(LanguageKey.msgAnotherLogin)).then((value) => logout(context));
+      // return false;
+    }
+    if (response.checkOK(passString: passString)) return true;
+    if (showError && response.data != null) {
+      // showCustomAlertDialog(context, response.data);
+    }
+    return false;
+  }
+  // static saveInfo(UserModel info, {bool saveAccount = false, dynamic nextPage, BuildContext? context})
+  // => SharedPreferences.getInstance().then((prefs) {
+  //   // prefs.setInt(Constants.keyId, info.id);
+  //   // prefs.setString(Constants.keyName, info.name);
+  //   // prefs.setString(Constants.keyEmail, info.email);
+  //   // prefs.setString(Constants.keyPhone, info.phone);
+  //   // prefs.setString(Constants.keyAddress, info.address);
+  //   // prefs.setString(Constants.keyDefaultAddress, info.default_address);
+  //   // prefs.setString(Constants.keyGender, info.gender);
+  //   // prefs.setString(Constants.keyBirthday, info.birthdate);
+  //   // prefs.setString(Constants.keyImage, info.image);
+  //   // prefs.setString(Constants.keyCity, info.city);
+  //   // prefs.setInt(Constants.keyCityId, info.city_id);
+  //   // prefs.setString(Constants.keyDistrict, info.district);
+  //   // prefs.setInt(Constants.keyDistrictId, info.district_id);
+  //   // Constants.avatar = info.image;
+  //   // if (saveAccount) {
+  //   //   prefs.setString(Constants.keyTokenUser, info.token_user);
+  //   //   prefs.setString(Constants.keyLogin, info.key_login);
+  //   //   prefs.setString(Constants.keyPassword, info.password);
+  //   //   prefs.setBool(Constants.isLogin, true);
+  //   //   Constants.valueLogin = true;
+  //   // }
+  //   // if (nextPage != null) goToPage(context!, nextPage, clearAllPage: true);
+  // });
+  static void logout(BuildContext context, {bool saveCarts = true, bool openLogin = true}) => SharedPreferences.getInstance().then((prefs) {
+    // final lang = prefs.getString('lang')??Languages().vi;
+    // final key = prefs.getString(Constants.keyLogin);
+    // final pass = prefs.getString(Constants.keyPassword);
+    // final remember = prefs.getBool(Constants.isRemember);
+    // final carts = prefs.getString(Constants.carts)??'';
+    // final shops = prefs.getString('shop')??'[]';
+    // final shop = prefs.getString('shopDefault')??'';
+    // final shopName = prefs.getString('shopName')??'';
+    // final shopId = prefs.getInt('shopId')??16;
+    // final accounts = prefs.getString('accounts')??'{}';
+    // prefs.clear();
+    // if (saveCarts) prefs.setString(Constants.carts, carts);
+    // prefs.setString(Constants.keyLogin, key!);
+    // prefs.setString(Constants.keyPassword, pass!);
+    // prefs.setBool(Constants.isRemember, remember!);
+    // prefs.setBool(Constants.isLogin, false);
+    // prefs.setBool('hasSlide', false);
+    // prefs.setString('lang', lang);
+    // prefs.setString('shop', shops);
+    // prefs.setString('shopDefault', shop);
+    // prefs.setString('shopName', shopName);
+    // prefs.setInt('shopId', shopId);
+    // prefs.setString(Constants.keyTheme, ThemeModel.value);
+    // Constants.valueLogin = false;
+    // CoreConstants.avatar = '';
+    // Constants.paymentValue = -1;
+    // final Map json = jsonDecode(accounts);
+    // json.remove(shopId.toString());
+    // prefs.setString('accounts', jsonEncode(json));
+    // if (openLogin) CoreUtilUI.goToPage(context, LoginPage(), clearAllPage: true);
+  });
+
+}
