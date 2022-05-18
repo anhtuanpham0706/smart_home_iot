@@ -17,24 +17,7 @@ class Constants {
   static const String keyDistrict = 'district';
   static const String keyDistrictId = 'district_id';
   static const String keyCurrentAddress = 'currentAddress';
-
-  //static const String merchantName = 'ADVN-Ecom';
-  //static const String momoMerchantId = 'MOMOY3W720210311';
-  //static const String momoMerchantPhone = '0944920912';
-  //static const double momoFee = 0.0;
-  //static const String vnpayEndpoint = 'http://sandbox.vnpayment.vn/paymentv2/vpcpay.html';
-  //static const String vnpayTmnCode = 'ZPY1YHXX';
-  //static const String vnpayHashKey = '3OI3TIG4GEQ1RGVGRFK34Z890X97GFJZ';
   static const String vnpayScheme = 'paymentback';
-  //static const String zaloAppId = '1254';
-  //static const String zaloAppUser = 'DeliChill';
-  //static const String zaloMacKey = 'SkNOMrQOzRtHtcWWUkLgJN1cmXAAHS7E';
-  //static const String zaloEndpoint = 'https://sb-openapi.zalopay.vn/v2/create';
-  //static const String stripeSecretKey = 'sk_test_51JSzrFDOF2b5fTXP0iTFuIH7Swiqcich3Z8XDc9QpNfgA5dlzNGowH15I7TycqoKBwFJjuR5uitkLo7PDVVXSmPK00hln1hUMo';
-  //static const String stripePublicKey = 'pk_test_51JSzrFDOF2b5fTXP7QqMIxmOh084DT0ylHehMMcgGsxyYjR1NFdhtF9cprdCZJ1VBtZKKdbm1Y345Ja4J0FYY7xi00waNuTHNN';
-  //static const String paypalDomainStaging = "https://api.sandbox.paypal.com";
-  //static const String paypalDomainProduct = "https://api.paypal.com";
-  //static const String stripeEndpoint = 'https://api.stripe.com/v1';
   static const String patternLinkHtml = r'(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.,&]+';
   static const String ggApiKey = 'AIzaSyD4SNmOSu_WVquh1UvnU0e4aryD_156je4';
   static const String addressSearches = 'addressSearches';
@@ -48,8 +31,6 @@ class Constants {
   static const String fireBaseToken = 'fireBaseToken';
   static const String baseUrl = 'https://ecommerce.advn.vn';
   static String apiVersion = '/api/v1/';
-  //static const String dateMinDefault = '1900-01-01';
-  static const String dateTimeMinDefault = '1900-01-01T00:00:00';
   static const String datePattern = 'yyyy-MM-dd';
   static const String dateTimePattern = 'yyyy-MM-ddTHH:mm:ss';
   static const String datePatternVI = 'dd/MM/yyyy';
@@ -70,8 +51,11 @@ class Constants {
   static const int decimalDigitsVI = 0;
   static const int decimalDigitsEN = 3;
   static bool openNotification = false;
+  static String housekey = '0929317227';
+  static String roomkey = '';
   static bool valueLogin = false;
   static bool showShop = false;
+  static bool hashousekey = false;
   static int paymentValue = -1;
   static String locale = localeVI;
   static String localeLang = localeVILang;

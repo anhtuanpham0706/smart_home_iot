@@ -2,10 +2,14 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_home_dev/common/constants.dart';
 import 'package:smart_home_dev/common/ui/text_custom.dart';
 import 'package:smart_home_dev/common/ui/theme_layer.dart';
 import 'package:smart_home_dev/common/utils/util_ui.dart';
+import 'package:smart_home_dev/features/input_key_house/key_home_page.dart';
 import 'package:smart_home_dev/features/login/login_page.dart';
+import 'package:smart_home_dev/features/main/main_page.dart';
 
 
 class SplashPage extends StatefulWidget {
@@ -24,7 +28,6 @@ class _SplashPageState extends State<SplashPage> {
         body: Column(children: [
           Expanded(child: Container(
             width: double.infinity,
-
               decoration: BoxDecoration(color: Colors.white, boxShadow: [
                 BoxShadow(color: Colors.grey.withOpacity(0.3),
                     spreadRadius: 5, blurRadius: 9, offset: const Offset(0, 7))],
@@ -43,9 +46,9 @@ class _SplashPageState extends State<SplashPage> {
   }
   void _skip() {
     if (_lockSkip) {
-      // SharedPreferences.getInstance().then((prefs) => prefs.setBool('hasSlide', false));
-      // UtilUI.goToPage(context, Constants.showShop ? ShopPage() : MainPage());
-      UtilUI.goToPage(context, LoginPage());
+      SharedPreferences.getInstance().then((prefs) => prefs.setBool('hasSlide', false));
+      UtilUI.goToPage(context, Constants.hashousekey ? ShopPage() : LoginPage());
+      // UtilUI.goToPage(context, LoginPage());
     }
   }
 }
