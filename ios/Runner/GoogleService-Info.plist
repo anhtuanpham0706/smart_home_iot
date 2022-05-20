@@ -6,6 +6,8 @@
 	<string>811717147083-gdmdt36scf9vhbkiulpm99f164m89tga.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
 	<string>com.googleusercontent.apps.811717147083-gdmdt36scf9vhbkiulpm99f164m89tga</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>811717147083-1fbet6ceh9817es2q1ieenhjkv2v9qe3.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyDT475xQumJCuUmQFDW2obSd0k_QGAjkVo</string>
 	<key>GCM_SENDER_ID</key>
@@ -30,5 +32,7 @@
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:811717147083:ios:fbdda051195b93d2d25e4e</string>
+	<key>DATABASE_URL</key>
+	<string>https://smarthomedev-5b043-default-rtdb.asia-southeast1.firebasedatabase.app</string>
 </dict>
 </plist>

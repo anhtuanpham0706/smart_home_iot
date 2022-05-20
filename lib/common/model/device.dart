@@ -6,9 +6,6 @@ class Device {
   bool connect;
   Device({required this.name,required this.image,required this.state,required this.button,required this.connect});
 
-
-
-
   Device.fromJson(Map<dynamic, dynamic> json)
       : name = json['name'] as String,
         image = json['image'] as String,

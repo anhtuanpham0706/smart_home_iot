@@ -40,7 +40,6 @@ class HomePageUI extends StatelessWidget {
                   TextCustom('Thời tiết hiện tại',
                     size: 20.sp, weight: SmartHomeStyle.mediumWeight,color: Colors.black,),
                   Container(
-
                     width: 360.sp,
                     height: 200.sp,
                     decoration: BoxDecoration(
