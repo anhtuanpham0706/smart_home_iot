@@ -21,3 +21,11 @@ class Room {
     'connect': connect
   };
 }
+class RoomAdd {
+  String name;
+  String image;
+
+  RoomAdd({required this.name,required this.image});
+
+
+}

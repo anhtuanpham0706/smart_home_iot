@@ -52,7 +52,7 @@ class _RoomDetailPageState extends BasePageState {
         body: Container(child: Stack(
           children: [
             SizedBox(width: 1.sw, height: 1.sh, child:
-            Image.asset('assets/images/theme/ic_livingroom3.png', fit: BoxFit.fill)
+            Image.asset('assets/images/theme/ic_livingroom.png', fit: BoxFit.fill)
             ),
             Column(crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -109,7 +109,7 @@ class _RoomDetailPageState extends BasePageState {
   void _sendMessage() {
 
     final device = Device(name: 'Fan',
-        image: 'assets/images/theme/air_conditioner1.png',state: 1,button: 'assets/images/theme/button_on_off.png', connect: false);
+        image: 'assets/images/theme/fan1.png',state: 0,button: 'assets/images/theme/button_on_off.png', connect: false);
     (widget as RoomDetailPage).deviceDao.saveDevice(device);
 
     setState(() {});
