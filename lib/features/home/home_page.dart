@@ -277,7 +277,6 @@ class _HomePageState extends BasePageState {
                           Constants.roomkey = key.toString();
                           CoreUtilUI.goToPage(context, RoomDetailPage(room.name,
                               ),hasBack: true);
-
                         },
                         child: SizedBox(
                           height: 40,

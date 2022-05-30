@@ -4,6 +4,7 @@
 
 
 import 'package:core_advn/common/ui/base_page.dart';
+import 'package:smart_home_dev/common/smarthome_style.dart';
 
 class UtilUI {
 
@@ -36,6 +37,13 @@ class UtilUI {
     }
     return false;
   }
+  static Future<bool?> showCustomAlertDialog(BuildContext context, String message, {String? title,
+    bool isActionCancel = false}) =>
+      CoreUtilUI.showCustomAlertDialog(context, message, title: title, isActionCancel: isActionCancel,
+          primaryColor: SmartHomeStyle.primaryColor, elevation: SmartHomeStyle.elevation);
+  static Future<dynamic> showOptionDialog(BuildContext context, String title,
+      final List<dynamic> values, String id) => CoreUtilUI.showOptionDialog(context,
+      title, values, id, primaryColor: SmartHomeStyle.primaryColor);
   // static saveInfo(UserModel info, {bool saveAccount = false, dynamic nextPage, BuildContext? context})
   // => SharedPreferences.getInstance().then((prefs) {
   //   // prefs.setInt(Constants.keyId, info.id);

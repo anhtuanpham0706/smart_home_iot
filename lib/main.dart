@@ -1,6 +1,7 @@
 
 
 import 'package:core_advn/common/base_bloc.dart';
+import 'package:core_advn/common/import_base_lib.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,16 +30,18 @@ class _MyAppState extends State<MyApp> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    MultiLanguage.setLanguage().then((value) => _changeState());
 
   }
 
   void _changeState() {
     loading++;
-    if (loading == 2) setState((){});
+    if (loading == 1) setState((){});
   }
 
   @override
   Widget build(BuildContext context) {
+  if (loading ==1) {
     return ScreenUtilInit(
         designSize: const Size(400, 600),
         minTextAdapt: true,
@@ -50,6 +53,7 @@ class _MyAppState extends State<MyApp> {
               // theme: ThemeData(fontFamily: ThemeModel.font, primaryColor: ECommerceStyle.primaryColor)
             )
         ));
+  }
     // if (loading == 2) {
     //   return ScreenUtilInit(
     //       designSize: const Size(400, 600),
@@ -63,7 +67,7 @@ class _MyAppState extends State<MyApp> {
     //           )
     //       ));
     // }
-    // return Container(color: Colors.white);
+     return Container(color: Colors.white);
 
   }
   void restart() => setState((){ key = UniqueKey(); });

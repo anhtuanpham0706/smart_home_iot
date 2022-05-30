@@ -21,6 +21,15 @@ class Device {
     'connect': connect
   };
 }
+class DeviceAdd {
+  String name;
+  String image;
+  DeviceAdd({required this.name,required this.image});
+}
+
+
+
+
 
 
 

@@ -7,6 +7,7 @@ import 'package:smart_home_dev/common/ui/base_page_state.dart';
 import 'package:smart_home_dev/features/home/home_page.dart';
 import 'package:smart_home_dev/features/main/main_bloc.dart';
 import 'package:smart_home_dev/features/main/ui/main_page_ui.dart';
+import 'package:smart_home_dev/features/profile/profile_page.dart';
 
 class MainPage extends BasePage {
   MainPage({Key? key}) : super(MainPageState(), key: key);
@@ -90,9 +91,9 @@ class MainPageState extends BasePageState with WidgetsBindingObserver {
     //   case 2:
     //     _page = OrderHistoryPage(_openDrawer, _openHomePage);
     //     break;
-    //   case 3:
-    //     _page = ProfilePage(_openDrawer);
-    //     break;
+      case 1:
+        _page = ProfilePage(_openDrawer);
+        break;
     //   case 4:
     //     _page = NewsPage(_openDrawer);
     //     break;

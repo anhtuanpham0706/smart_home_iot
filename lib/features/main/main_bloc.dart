@@ -1,13 +1,19 @@
 
 
-import 'package:core_advn/common/base_bloc.dart';
 
-import '../../common/base_response.dart';
+import 'package:core_advn/common/ui/import_base_ui_lib.dart';
+
+
 
 class MainBloc extends BaseBloc {
   MainBloc() {
     on<ChangePageMainEvent>((event, emit) =>
         emit(ChangePageMainState(event.index)));
+    on<ChangeLanguageMainEvent>((event, emit) async {
+      emit(const BaseState(showLoading: true));
+      await MultiLanguage.setLanguage(lang: event.language);
+      emit(ChangeLanguageMainState(event.language));
+    });
   }
 }
 
@@ -27,6 +33,11 @@ class ReloadMenuMainState extends BaseState {}
 class SetInfoMainState extends BaseState {
   // final UserModel user;
   SetInfoMainState();
+}
+class LogoutEvent extends BaseEvent{}
+class LogoutState extends BaseState{
+  final BaseResponse response;
+  LogoutState(this.response);
 }
 
 

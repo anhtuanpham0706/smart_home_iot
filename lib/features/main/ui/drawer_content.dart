@@ -2,6 +2,7 @@
 
 import 'package:core_advn/common/ui/button_custom_transparent.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_home_dev/common/language_key.dart';
 import 'package:smart_home_dev/common/smarthome_style.dart';
 import 'package:smart_home_dev/common/ui/drawer_item.dart';
 import 'package:smart_home_dev/common/ui/text_custom.dart';
@@ -60,8 +61,8 @@ class _Body extends StatelessWidget {
       //     MultiLanguage.get(LanguageKey.ttlNews), index == 4),
       // Constants.valueLogin ? DrawerItem(() => changePage(10), 'assets/images/ic_share_app.png',
       //     MultiLanguage.get(LanguageKey.ttlShareApp), index == 10):const SizedBox(),
-      // Constants.valueLogin ? DrawerItem(() => changePage(3), 'assets/images/ic_profile.png',
-      //     MultiLanguage.get(LanguageKey.ttlProfile), index == 3):const SizedBox(),
+       DrawerItem(() => changePage(1), 'assets/images/theme/ic_profile.png',
+          MultiLanguage.get(LanguageKey.ttlProfile), index == 1),
       // // DrawerItem(() => changePage(11), 'assets/images/theme3/ic_theme3_promotion.png',
       // //     MultiLanguage.get(LanguageKey.lblPromotion), index == 11),
       // Constants.valueLogin ? DrawerItem(() => changePage(2), 'assets/images/ic_history.png',

@@ -45,6 +45,7 @@ flutter:
     - assets/images/
     - assets/images/theme/
     - assets/fonts/
+    - assets/jsons/
 
 
   # "family" key with the font family name, and a "fonts" key with a

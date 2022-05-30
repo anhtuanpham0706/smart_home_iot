@@ -9,7 +9,9 @@ import 'package:smart_home_dev/common/model/device.dart';
 import 'package:smart_home_dev/common/model/device_service.dart';
 import 'package:smart_home_dev/common/model/room_service.dart';
 import 'package:smart_home_dev/common/smarthome_style.dart';
+import 'package:smart_home_dev/common/ui/button_custom.dart';
 import 'package:smart_home_dev/common/ui/icon_action.dart';
+import 'package:smart_home_dev/common/ui/theme_textfield.dart';
 
 import '../../common/ui/base_page_state.dart';
 import '../../common/ui/text_custom.dart';
@@ -40,8 +42,20 @@ class _RoomDetailPageState extends BasePageState {
   // Query getDeviceQuery() {
   //   return _deviceRef;
   // }
+  final TextEditingController _ctrDetailRoom = TextEditingController();
+  final FocusNode _focusDetailRoom = FocusNode();
   ScrollController _scrollController = ScrollController();
   final _deviceRef = FirebaseDatabase.instance.reference();
+  String _deviceName = '';
+  String _deviceImage = '';
+  String _type_device = '';
+  List<DeviceAdd> _device = [
+    DeviceAdd(name: 'Light', image: 'assets/images/theme/Living_room_light.png'),
+    DeviceAdd(name: 'Television', image: 'assets/images/theme/television.png'),
+    DeviceAdd(name: 'Fan', image: 'assets/images/theme/fan.png'),
+    DeviceAdd(name: 'Air Conditioner', image: 'assets/images/theme/air_conditioner.png'),
+
+  ];
 
 
 
@@ -70,7 +84,7 @@ class _RoomDetailPageState extends BasePageState {
                       ])),
                   GestureDetector(
                     onTap: (){
-                      _sendMessage();
+                      _open_opision();
                     },
                     child: Container(
                       child: Text('send device'),
@@ -106,10 +120,10 @@ class _RoomDetailPageState extends BasePageState {
   void _back() {
     CoreUtilUI.goBack(context, true);
   }
-  void _sendMessage() {
+  void _add_device() {
 
-    final device = Device(name: 'Fan',
-        image: 'assets/images/theme/fan1.png',state: 0,button: 'assets/images/theme/button_on_off.png', connect: false);
+    final device = Device(name: _deviceName,
+        image: _type_device,state: 0,button: 'assets/images/theme/button_on_off.png', connect: false);
     (widget as RoomDetailPage).deviceDao.saveDevice(device);
 
     setState(() {});
@@ -180,6 +194,68 @@ class _RoomDetailPageState extends BasePageState {
           );
         },
       ),
+    );
+  }
+  Widget bottomSheet() {
+
+    return Container(
+      height: 300.0,
+      width: double.infinity,
+      margin: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 20,
+      ),
+      child: Column(
+          children: <Widget>[
+            TextCustom('Chọn Thông số phòng',color: Colors.red,size: 18.sp,),
+            ThemeTextField(_ctrDetailRoom, _focusDetailRoom, Icons.phone_android_outlined, 'Name Room',type: TextInputType.name),
+            SizedBox(
+              width: 160,
+              child: DropdownButton(
+                hint: _deviceName == null
+                    ? Text('Chọn kiểu Thiết bị')
+                    : Text(
+                  _deviceName,
+                  style: TextStyle(color: Colors.black),
+                ),
+                isExpanded: true,
+                iconSize: 30.0,
+                style: TextStyle(color: Colors.black),
+                items: _device.map(
+                      (DeviceAdd list) {
+                    return DropdownMenuItem<String>(
+                      value: list.name,
+                      child: Text(list.name),
+                    );
+                  },
+                ).toList(),
+                onChanged: (val) {
+                  setState(
+                        () {
+                      _deviceName = val.toString();
+                      _change_image(_deviceName);
+                    },
+                  );
+                },
+              ),
+            ),
+            ButtonCustom(_add_device,TextCustom('Thêm Phòng',color: Colors.blue,)),
+          ]),
+
+    );
+  }
+  void _change_image(String typedevice){
+    int index = 0;
+    for (index = 0; index < _device.length; index++) {
+      if(_device[index].name == typedevice) {
+        _type_device = _device[index].image;
+      }
+    }
+  }
+  void _open_opision(){
+    showModalBottomSheet(
+      context: context,
+      builder: ((builder) => bottomSheet()),
     );
   }
 
