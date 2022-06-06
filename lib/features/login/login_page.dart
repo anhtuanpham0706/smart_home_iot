@@ -7,6 +7,7 @@ import 'package:smart_home_dev/features/login/ui/login_page_dev.dart';
 import 'package:smart_home_dev/features/login/ui/login_page_ui.dart';
 import 'package:smart_home_dev/features/main/main_page.dart';
 import 'package:smart_home_dev/features/signup/sign_up_page.dart';
+import 'package:smart_home_dev/features/test_features/test_notifine.dart';
 
 
 class LoginPage extends BasePage {
@@ -118,7 +119,7 @@ class _LoginPageState extends BasePageState {
     //   } else if (state is SignInOthersState) _handleSignInWith(state);
     // });
   }
-  void _nextPage() => CoreUtilUI.goToPage(context, MainPage());
+  void _nextPage() => CoreUtilUI.goToPage(context, TestNotification());
 
   @override
   void initUI() {
