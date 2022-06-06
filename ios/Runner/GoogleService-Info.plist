@@ -3,23 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>811717147083-gdmdt36scf9vhbkiulpm99f164m89tga.apps.googleusercontent.com</string>
+	<string>92780198085-43vtus40q5ucuabrvst6a4o197qsjkg3.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.811717147083-gdmdt36scf9vhbkiulpm99f164m89tga</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>811717147083-1fbet6ceh9817es2q1ieenhjkv2v9qe3.apps.googleusercontent.com</string>
+	<string>com.googleusercontent.apps.92780198085-43vtus40q5ucuabrvst6a4o197qsjkg3</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDT475xQumJCuUmQFDW2obSd0k_QGAjkVo</string>
+	<string>AIzaSyAqstQviyPl38tefUlQX6OsYV49BdssptI</string>
 	<key>GCM_SENDER_ID</key>
-	<string>811717147083</string>
+	<string>92780198085</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.smart.smarthome.dev</string>
 	<key>PROJECT_ID</key>
-	<string>smarthomedev-5b043</string>
+	<string>smarthomefinal-b925f</string>
 	<key>STORAGE_BUCKET</key>
-	<string>smarthomedev-5b043.appspot.com</string>
+	<string>smarthomefinal-b925f.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:811717147083:ios:fbdda051195b93d2d25e4e</string>
+	<string>1:92780198085:ios:b6db659f48396d6bbf98ac</string>
 	<key>DATABASE_URL</key>
-	<string>https://smarthomedev-5b043-default-rtdb.asia-southeast1.firebasedatabase.app</string>
+	<string>https://smarthomefinal-b925f-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>
