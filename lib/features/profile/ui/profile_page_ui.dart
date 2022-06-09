@@ -20,18 +20,28 @@ class ProfilePageUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Column(children: [
-    HeaderCustom(LanguageKey.ttlProfile, hasBack: false, hasMenu: true, funMenu: menuClick),
-
-    Expanded(child: BlocBuilder(bloc: bloc,
-        buildWhen: (oldState, newState) => newState is ChangeLanguageMainState,
-        builder: (context, state) => ListView(padding: EdgeInsets.zero, children: [
-          Container(padding: EdgeInsets.fromLTRB(16.sp, 14.sp, 0, 9.sp),
-              child: TextCustom(MultiLanguage.get(LanguageKey.lblAccount),
-                  color: SmartHomeStyle.color7B, size: 14.sp)),
-          ProfileItem('assets/images/theme/ic_language.png', LanguageKey.lblLanguage, showLanguage),
-          ProfileItem('assets/images/theme/ic_lock.png', LanguageKey.lblChangePass, changePassword),
-          ProfileItem('assets/images/theme/ic_logout.png', LanguageKey.lblLogout, logout,
-              color: SmartHomeStyle.colorA5, hasLine: false)
-        ])))
-  ]);
+        HeaderCustom(MultiLanguage.get(LanguageKey.ttlProfile),
+            hasBack: false, hasMenu: true, funMenu: menuClick),
+        Expanded(
+            child: BlocBuilder(
+                bloc: bloc,
+                buildWhen: (oldState, newState) =>
+                    newState is ChangeLanguageMainState,
+                builder: (context, state) =>
+                    ListView(padding: EdgeInsets.zero, children: [
+                      Container(
+                          padding: EdgeInsets.fromLTRB(16.sp, 14.sp, 0, 9.sp),
+                          child: TextCustom(
+                              MultiLanguage.get(LanguageKey.lblAccount),
+                              color: SmartHomeStyle.color7B,
+                              size: 14.sp)),
+                      ProfileItem('assets/images/theme/ic_language.png',
+                          LanguageKey.lblLanguage, showLanguage),
+                      ProfileItem('assets/images/theme/ic_lock.png',
+                          LanguageKey.lblChangePass, changePassword),
+                      ProfileItem('assets/images/theme/ic_logout.png',
+                          LanguageKey.lblLogout, logout,
+                          color: SmartHomeStyle.colorA5, hasLine: false)
+                    ])))
+      ]);
 }

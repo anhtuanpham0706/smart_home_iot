@@ -40,6 +40,8 @@ PODS:
     - FirebaseCore (~> 8.0)
     - leveldb-library (~> 1.22)
   - Flutter (1.0.0)
+  - flutter_local_notifications (0.0.1):
+    - Flutter
   - GoogleDataTransport (9.1.2):
     - GoogleUtilities/Environment (~> 7.2)
     - nanopb (~> 2.30908.0)
@@ -89,6 +91,7 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
   - Flutter (from `Flutter`)
+  - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - platform_device_id (from `.symlinks/plugins/platform_device_id/ios`)
   - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
@@ -124,6 +127,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_database/ios"
   Flutter:
     :path: Flutter
+  flutter_local_notifications:
+    :path: ".symlinks/plugins/flutter_local_notifications/ios"
   permission_handler:
     :path: ".symlinks/plugins/permission_handler/ios"
   platform_device_id:
@@ -151,6 +156,7 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnostics: c2836d254a8f0bbb4121ff18f2c2ea39d118fd08
   FirebaseDatabase: ff9b4c7bee14d9f561f26c64a28ac083989f03d5
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91

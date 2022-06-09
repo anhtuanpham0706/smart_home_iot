@@ -4,12 +4,16 @@ import 'package:core_advn/common/base_bloc.dart';
 import 'package:core_advn/common/import_base_lib.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_home_dev/common/notificationservice.dart';
 import 'package:smart_home_dev/features/splash_page.dart';
+import 'package:smart_home_dev/features/test_notification/test_noti_page.dart';
 import 'features/main/main_bloc.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  NotificationService().initNotification();
   await Firebase.initializeApp();
   runApp(const MyApp());
 }

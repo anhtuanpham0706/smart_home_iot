@@ -299,7 +299,6 @@ class _HomePageState extends BasePageState {
     );
   }
   Widget bottomSheet() {
-
     return Container(
       height: 300.0,
       width: double.infinity,
@@ -334,9 +333,10 @@ class _HomePageState extends BasePageState {
               onChanged: (val) {
                 setState(
                       () {
-                    _dropName = val.toString();
-                    _change_image(_dropName);
-                  },
+                        // _dropName = 'abc';
+                  _dropName = val.toString();
+                        // _change_image(_dropName);
+                },
                 );
               },
             ),

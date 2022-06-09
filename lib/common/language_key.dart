@@ -24,6 +24,7 @@ class LanguageKey {
   static const String lblPhoneNumber = 'lbl_phone_number';
   static const String lblCommonPolicy = 'lbl_common_policy';
   static const String lblYourPhoneNumber = 'lbl_your_phone_number';
+  static const String lblYourEmail = 'lbl_your_email';
   static const String lblPassword = 'lbl_password';
   static const String lblRemember = 'lbl_remember';
   static const String lblSendTo = 'lbl_send_to';

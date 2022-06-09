@@ -72,33 +72,34 @@ class _RoomDetailPageState extends BasePageState {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(padding: EdgeInsets.fromLTRB(16.sp, ScreenUtil().statusBarHeight + 27.sp, 16.sp, 10.sp),
-                      color: SmartHomeStyle.primaryColor,
-                      child: Row(mainAxisAlignment: MainAxisAlignment.end, crossAxisAlignment: CrossAxisAlignment.start, children: [
+                          color: SmartHomeStyle.primaryColor,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(children: [
+                                  IconAction(_back,
+                                      'assets/images/theme/ic_arrow_back.png',
+                                      width: 22.sp,
+                                      height: 22.sp,
+                                      padding: 3.sp,
+                                      color: Colors.white)
+                                ]),
+                                Expanded(
+                                    child: TextCustom(
+                                        (widget as RoomDetailPage).name_room,
+                                        size: 20.sp,
+                                        weight: SmartHomeStyle.mediumWeight)),
+                              ])),
+                      IconAction(_open_opision, 'assets/images/theme/more.png',
+                          width: 22.sp,
+                          height: 22.sp,
+                          padding: 3.sp,
+                          color: Colors.black),
+                      _getDeviceList(),
 
-                        Row(children: [
-                          IconAction(_back, 'assets/images/theme/ic_arrow_back.png',
-                              width: 22.sp, height: 22.sp, padding: 3.sp, color: Colors.white)
-                        ]),
-                        Expanded(child: TextCustom((widget as RoomDetailPage).name_room,
-                            size: 20.sp, weight: SmartHomeStyle.mediumWeight)),
-                      ])),
-                  GestureDetector(
-                    onTap: (){
-                      _open_opision();
-                    },
-                    child: Container(
-                      child: Text('send device'),
-
-                    ),
-                  ),
-                  _getDeviceList(),
-
-
-
-
-
-                  // Expanded(child: page)
-                ])
+                      // Expanded(child: page)
+                    ])
 
           ],
         ), color: color),
