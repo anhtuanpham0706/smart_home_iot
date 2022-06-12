@@ -16,7 +16,9 @@ class SignUpPage extends BasePage {
 
 class _SignUpPageState extends BasePageState {
   final TextEditingController _ctrEmail = TextEditingController();
+  final TextEditingController _ctrPhone = TextEditingController();
   final TextEditingController _ctrPass = TextEditingController();
+  final FocusNode _focusPhone = FocusNode();
   final FocusNode _focusEmail = FocusNode();
   final FocusNode _focusPass = FocusNode();
   String deviceId = '';
@@ -25,15 +27,16 @@ class _SignUpPageState extends BasePageState {
   void dispose() {
     _focusEmail.dispose();
     _ctrEmail.dispose();
+    _focusPhone.dispose();
+    _ctrPhone.dispose();
     _focusPass.dispose();
     _ctrPass.dispose();
     super.dispose();
   }
 
   @override
-  Widget createUI(BuildContext context) =>
-      SignUpPageDev(_ctrEmail, _ctrPass, _focusEmail,
-      _focusPass, back, _signUp);
+  Widget createUI(BuildContext context) => SignUpPageDev(_ctrEmail, _ctrPass,
+      _focusEmail, _focusPass, _ctrPhone, _focusPhone, back, _signUp);
 
   @override
   void initBloc() {

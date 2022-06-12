@@ -4,6 +4,7 @@ import 'package:smart_home_dev/common/constants.dart';
 import 'package:smart_home_dev/common/language_key.dart';
 import 'package:smart_home_dev/common/smarthome_style.dart';
 import 'package:smart_home_dev/common/ui/text_field_underline.dart';
+import 'package:smart_home_dev/features/login/login_page.dart';
 
 class UtilUI {
   static void goBack(BuildContext context, value) =>
@@ -115,7 +116,7 @@ class UtilUI {
         if (saveAccount) {
           //prefs.setString(Constants.keyTokenUser, info.token_user);
           prefs.setString(Constants.keyLogin, 'tuananhpham0706@gmail.com');
-          prefs.setString(Constants.keyPassword, '0929317227');
+          prefs.setString(Constants.keyPassword, '123456789');
           prefs.setBool(Constants.isLogin, true);
           Constants.valueLogin = true;
         }
@@ -137,8 +138,8 @@ class UtilUI {
         // final accounts = prefs.getString('accounts')??'{}';
         // prefs.clear();
         // if (saveCarts) prefs.setString(Constants.carts, carts);
-        // prefs.setString(Constants.keyLogin, key!);
-        // prefs.setString(Constants.keyPassword, pass!);
+        prefs.setString(Constants.keyLogin, '');
+        prefs.setString(Constants.keyPassword, '');
         // prefs.setBool(Constants.isRemember, remember!);
         // prefs.setBool(Constants.isLogin, false);
         // prefs.setBool('hasSlide', false);
@@ -148,12 +149,13 @@ class UtilUI {
         // prefs.setString('shopName', shopName);
         // prefs.setInt('shopId', shopId);
         // prefs.setString(Constants.keyTheme, ThemeModel.value);
-        // Constants.valueLogin = false;
+        Constants.valueLogin = false;
         // CoreConstants.avatar = '';
         // Constants.paymentValue = -1;
         // final Map json = jsonDecode(accounts);
         // json.remove(shopId.toString());
         // prefs.setString('accounts', jsonEncode(json));
-        // if (openLogin) CoreUtilUI.goToPage(context, LoginPage(), clearAllPage: true);
+        if (openLogin)
+          CoreUtilUI.goToPage(context, LoginPage(), clearAllPage: true);
       });
 }

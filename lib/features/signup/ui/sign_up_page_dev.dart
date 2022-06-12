@@ -12,17 +12,20 @@ import '../../../common/smarthome_style.dart';
 
 
 class SignUpPageDev extends StatelessWidget {
-  final TextEditingController ctrEmail, ctrPass;
-  final FocusNode focusEmail, focusPass;
+  final TextEditingController ctrEmail, ctrPass, ctrPhone;
+  final FocusNode focusEmail, focusPass, focusPhone;
   final Function back, signUp;
-  const SignUpPageDev(this.ctrEmail, this.ctrPass, this.focusEmail, this.focusPass,
-      this.back, this.signUp,{Key? key}):super(key:key);
+
+  const SignUpPageDev(this.ctrEmail, this.ctrPass, this.focusEmail,
+      this.focusPass, this.ctrPhone, this.focusPhone, this.back, this.signUp,
+      {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final textStyle = SmartHomeStyle.getStyle(size: 14.sp, color: Colors.black);
     final hintStyle =
-    SmartHomeStyle.getStyle(size: 14.sp, color: const Color(0xFFA3A3A3));
+        SmartHomeStyle.getStyle(size: 14.sp, color: const Color(0xFFA3A3A3));
     return Stack(children: [
       SizedBox(width: 1.sw, height: 0.6.sh, child:
       Image.asset('assets/images/theme/6230154.png', fit: BoxFit.fill)

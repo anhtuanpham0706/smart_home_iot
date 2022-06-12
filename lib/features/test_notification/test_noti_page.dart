@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:smart_home_dev/common/notificationservice.dart';
@@ -12,13 +13,54 @@ class TestNotification extends StatefulWidget {
 }
 
 class _TestNotificationState extends State<TestNotification> {
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
   TextEditingController Notification_title = TextEditingController();
   TextEditingController Notification_descrp = TextEditingController();
+  final DBref = FirebaseDatabase.instance.ref();
+  DatabaseReference ref = FirebaseDatabase.instance.ref("LED_TEST");
+  int ledStatus = 0;
+  int temp = 0;
+  String _data = '';
 
   @override
   initState() {
     super.initState();
+    _requestPermissions();
+    _set_led();
     tz.initializeTimeZones();
+  }
+
+  void _requestPermissions() {
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            MacOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
+  }
+
+  void _set_led() async {
+    ref.onValue.listen((DatabaseEvent event) {
+      final data = event.snapshot.value;
+      setState(() {
+        _data = data.toString();
+        if (_data == '1') {
+          NotificationService()
+              .showNotification(1, 'hello word', 'test real time data base');
+        }
+      });
+    });
   }
 
   @override
@@ -31,7 +73,10 @@ class _TestNotificationState extends State<TestNotification> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("GeeksForGeeks"),
+            Text(
+              _data.toString(),
+              style: TextStyle(color: Colors.black),
+            ),
             Padding(
               padding: EdgeInsets.all(20),
               child: TextField(

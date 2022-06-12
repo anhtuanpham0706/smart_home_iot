@@ -43,9 +43,8 @@ class _ProfilePageState extends BasePageState {
   });
   void _logout() =>
       UtilUI.showCustomAlertDialog(context, MultiLanguage.get(LanguageKey.msgLogout), isActionCancel: true).then((value) {
-
-          bloc?.add(LogoutEvent());
-
+        // bloc?.add(LogoutEvent());
+        UtilUI.logout(context);
       });
   void _changePassword() {
     // CoreUtilUI.goToPage(context, PasswordPage(update: ItemModel(id: _user.phone, name: _user.name)), hasBack: true);

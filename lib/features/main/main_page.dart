@@ -1,8 +1,8 @@
+import 'dart:convert';
+import 'dart:io';
 
-
-
-
-
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:smart_home_dev/common/ui/base_page_state.dart';
 import 'package:smart_home_dev/features/home/home_page.dart';
 import 'package:smart_home_dev/features/main/main_bloc.dart';
@@ -11,19 +11,77 @@ import 'package:smart_home_dev/features/profile/profile_page.dart';
 
 class MainPage extends BasePage {
   MainPage({Key? key}) : super(MainPageState(), key: key);
-
 }
-
 
 class MainPageState extends BasePageState with WidgetsBindingObserver {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   // final UserModel _user = UserModel();
   BasePage? _page;
   MainBloc? _bloc;
   int index = 0;
+  FlutterLocalNotificationsPlugin? _localNotify;
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 
+  @override
+  void dispose() {
+    if (_page != null) _page = null;
+    if (_localNotify != null) _localNotify = null;
+    super.dispose();
+  }
 
+  void _notifyGotoScreen(Map<String, dynamic> json) {
+    if (json.containsKey('message')) {
+      try {
+        final msg = jsonDecode(json['message']);
+        //if(msg['type'].toLowerCase() == 'chat') {
+        if (msg['type'] == 1) {
+          // if (_page is ChatPage) (_page as ChatPage).refreshChatList();
+          // else {
+          //   UtilUI.goToRealPage(context, 'MainPage');
+          //   _changePage(5);
+          // }
+          return;
+        }
+      } catch (_) {}
 
+      // if (!Constants.openNotification) {
+      //   if(_notifyListener != null) _notifyListener = null;
+      //   _notifyListener = NotificationPage(this);
+      //   UtilUI.goToPage(context, _notifyListener, hasBack: true);
+      // }
+    }
+  }
+
+  void _initFirebase() {
+    FirebaseMessaging.instance.requestPermission();
+    FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+        alert: true, badge: true, sound: true);
+
+    if (Platform.isAndroid && _localNotify == null) {
+      _localNotify = FlutterLocalNotificationsPlugin();
+      _localNotify?.initialize(
+          const InitializationSettings(
+              android: AndroidInitializationSettings('ic_launcher')),
+          onSelectNotification: (value) =>
+              _notifyGotoScreen(jsonDecode(value!)));
+    }
+
+    FirebaseMessaging.instance
+        .getInitialMessage()
+        .then((RemoteMessage? message) {
+      if (message != null) _notifyGotoScreen(message.data);
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      _notifyGotoScreen(message.data);
+    });
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      // _loadNotification(message.data, notification: message.notification);
+    });
+  }
 
   @override
   Widget build(BuildContext context, {Color color = Colors.white}) =>
@@ -35,7 +93,6 @@ class MainPageState extends BasePageState with WidgetsBindingObserver {
 
   @override
   void initBloc() {
-
     MainPageUI.index = 0;
     _bloc = BlocProvider.of<MainBloc>(context);
     _bloc?.stream.listen((state) {
@@ -44,13 +101,30 @@ class MainPageState extends BasePageState with WidgetsBindingObserver {
       // else if (state is CountNotificationMainState)
       //   _handleResponse(state.response, _handleCountNotification);
     });
+    _initFirebase();
   }
 
   @override
-  void initUI() {
+  void initUI() {}
 
+  void _requestPermissions() {
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            MacOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
   }
-
 
   void _changePage(int newIndex) {
     // if (!Constants.valueLogin && (newIndex == 2 || newIndex == 3 || newIndex == 5)) {

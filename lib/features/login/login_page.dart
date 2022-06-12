@@ -20,11 +20,14 @@ class _LoginPageState extends BasePageState {
   final FocusNode _focusEmail = FocusNode();
   final FocusNode _focusPass = FocusNode();
 
-
-
-
-
-
+  @override
+  void dispose() {
+    _focusEmail.dispose();
+    _ctrEmail.dispose();
+    _focusPass.dispose();
+    _ctrPass.dispose();
+    super.dispose();
+  }
 
   void _signUp() {
     UtilUI.goToPage(context, SignUpPage(), hasBack: true);
@@ -106,9 +109,22 @@ class _LoginPageState extends BasePageState {
 
   @override
   void initUI() {
-    // TODO: implement initUI
+    _ctrEmail.text = ' ';
+    _ctrPass.text = ' ';
+    SharedPreferences.getInstance().then((prefs) {
+      _ctrEmail.text = '';
+      _ctrPass.text = '';
+      prefs.setBool(Constants.isRemember, true);
+      if (prefs.containsKey(Constants.isRemember)) {
+        bool remember = prefs.getBool(Constants.isRemember)!;
+        bloc?.add(ChangeRememberLoginEvent(remember));
+        if (remember) {
+          if (prefs.containsKey(Constants.keyLogin))
+            _ctrEmail.text = prefs.getString(Constants.keyLogin)!;
+          if (prefs.containsKey(Constants.keyPassword))
+            _ctrPass.text = prefs.getString(Constants.keyPassword)!;
+        }
+      }
+    });
   }
-
-
-
 }
