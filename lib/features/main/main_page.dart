@@ -67,7 +67,6 @@ class MainPageState extends BasePageState with WidgetsBindingObserver {
           onSelectNotification: (value) =>
               _notifyGotoScreen(jsonDecode(value!)));
     }
-
     FirebaseMessaging.instance
         .getInitialMessage()
         .then((RemoteMessage? message) {

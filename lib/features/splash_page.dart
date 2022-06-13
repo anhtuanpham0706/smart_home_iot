@@ -34,7 +34,7 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   void initState() {
-    _loadSetting();
+    // _loadSetting();
     super.initState();
   }
 
@@ -45,8 +45,9 @@ class _SplashPageState extends State<SplashPage> {
       if (!Constants.valueLogin) {
         SharedPreferences.getInstance().then((prefs) {
           bool hasSlide = true;
-          if (prefs.containsKey('hasSlide'))
+          if (prefs.containsKey('hasSlide')) {
             hasSlide = prefs.getBool('hasSlide')!;
+          }
           if (hasSlide) setState(() => _startScroll = true);
         });
       }
@@ -54,43 +55,39 @@ class _SplashPageState extends State<SplashPage> {
     _nextPage(second: 3);
   }
 
-  Future<void> _loadSetting() async {
-    // final response = await ApiClient().getString(Constants.baseUrl + '/api/16/v1/base/option?key=allow_scan_app');
-    // if (response.isNotEmpty) {
-    //   final Map json = jsonDecode(response);
-    //   if (json.containsKey('data')) {
-    //     final data = json['data'];
-    //     if (data != null && data is List && data.isNotEmpty) {
-    //       data.forEach((item) {
-    //         if (item['key'] == 'allow_scan_app')
-    //           Constants.showShop = item['value'] == 'true' ? true : false;
-    //       });
-    //     }
-    //   }
-    // }
-    _lockSkip = false;
-  }
+  // Future<void> _loadSetting() async {
+  //   // final response = await ApiClient().getString(Constants.baseUrl + '/api/16/v1/base/option?key=allow_scan_app');
+  //   // if (response.isNotEmpty) {
+  //   //   final Map json = jsonDecode(response);
+  //   //   if (json.containsKey('data')) {
+  //   //     final data = json['data'];
+  //   //     if (data != null && data is List && data.isNotEmpty) {
+  //   //       data.forEach((item) {
+  //   //         if (item['key'] == 'allow_scan_app')
+  //   //           Constants.showShop = item['value'] == 'true' ? true : false;
+  //   //       });
+  //   //     }
+  //   //   }
+  //   // }
+  //   _lockSkip = false;
+  // }
 
   void _nextPage({int second = 1}) =>
       Timer(Duration(seconds: second), () async {
-        if (_lockSkip)
-          _nextPage(second: 2);
-        else {
-          var page;
-          if (Constants.valueLogin)
-            page = MainPage();
-          else
-            page = Constants.showShop ? ShopPage() : MainPage();
-
-          bool hasSlide = true;
-          final prefs = await SharedPreferences.getInstance();
-          if (prefs.containsKey('hasSlide'))
-            hasSlide = prefs.getBool('hasSlide')!;
-
-          if (Constants.valueLogin || !hasSlide) {
-            prefs.setBool('hasSlide', false);
-            UtilUI.goToPage(context, page);
-          }
+        var page;
+        if (Constants.valueLogin) {
+          page = MainPage();
+        } else {
+          page = Constants.showShop ? ShopPage() : LoginPage();
+        }
+        bool hasSlide = true;
+        final prefs = await SharedPreferences.getInstance();
+        if (prefs.containsKey('hasSlide')) {
+          hasSlide = prefs.getBool('hasSlide')!;
+        }
+        if (Constants.valueLogin || !hasSlide) {
+          prefs.setBool('hasSlide', false);
+          UtilUI.goToPage(context, page);
         }
       });
 

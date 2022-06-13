@@ -19,7 +19,7 @@ class NotificationService {
   Future<void> initNotification() async {
     // Android initialization
     final AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher.png');
+        const AndroidInitializationSettings('ic_launcher');
 
     // ios initialization
     final IOSInitializationSettings initializationSettingsIOS =
@@ -58,7 +58,6 @@ class NotificationService {
           presentSound: true,
         ),
       ),
-
       // Type of time interpretation
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
