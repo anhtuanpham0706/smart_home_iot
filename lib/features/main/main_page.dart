@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:smart_home_dev/common/notificationservice.dart';
 import 'package:smart_home_dev/common/ui/base_page_state.dart';
 import 'package:smart_home_dev/features/home/home_page.dart';
 import 'package:smart_home_dev/features/main/main_bloc.dart';
@@ -20,15 +22,30 @@ class MainPageState extends BasePageState with WidgetsBindingObserver {
   BasePage? _page;
   MainBloc? _bloc;
   int index = 0;
+  String _data = '';
   FlutterLocalNotificationsPlugin? _localNotify;
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
+  DatabaseReference ref = FirebaseDatabase.instance.ref("LED_TEST");
 
   @override
   void dispose() {
     if (_page != null) _page = null;
     if (_localNotify != null) _localNotify = null;
     super.dispose();
+  }
+
+  void _set_led() async {
+    ref.onValue.listen((DatabaseEvent event) {
+      final data = event.snapshot.value;
+      setState(() {
+        _data = data.toString();
+        if (_data == '1') {
+          NotificationService()
+              .showNotification(1, 'hello word', 'test real time data base');
+        }
+      });
+    });
   }
 
   void _notifyGotoScreen(Map<String, dynamic> json) {
@@ -100,11 +117,16 @@ class MainPageState extends BasePageState with WidgetsBindingObserver {
       // else if (state is CountNotificationMainState)
       //   _handleResponse(state.response, _handleCountNotification);
     });
+
     _initFirebase();
   }
 
   @override
-  void initUI() {}
+  void initUI() {
+    _requestPermissions();
+    _set_led();
+    tz.initializeTimeZones();
+  }
 
   void _requestPermissions() {
     flutterLocalNotificationsPlugin

@@ -1,16 +1,22 @@
 class Room {
   String name;
   String image;
-  double temp;
-  double hum;
+  dynamic temp;
+  dynamic hum;
   bool connect;
-  Room({required this.name,required this.image,required this.temp,required this.hum,required this.connect});
+
+  Room(
+      {required this.name,
+      required this.image,
+      required this.temp,
+      required this.hum,
+      required this.connect});
 
   Room.fromJson(Map<dynamic, dynamic> json)
       : name = json['name'] as String,
         image = json['image'] as String,
-        temp = json['temp'] as double,
-        hum = json['hum'] as double,
+        temp = json['temp'] as dynamic,
+        hum = json['hum'] as dynamic,
         connect = json['connect'] as bool;
 
   Map<dynamic, dynamic> toJson() => <dynamic, dynamic>{

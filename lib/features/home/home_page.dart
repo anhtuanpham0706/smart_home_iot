@@ -195,11 +195,12 @@ class _HomePageState extends BasePageState {
   void initBloc() {
     bloc = HomeBloc();
   }
-
   @override
   void initUI() {
     // _determinePosition();
     _getCurrentLocation();
+    bloc?.add(GetValueWeatherEvent(_currentPosition.longitude.toString(),
+        _currentPosition.latitude.toString()));
   }
 
   _getCurrentLocation() {

@@ -1,7 +1,10 @@
 
 
+import 'dart:convert';
 
+import 'package:http/http.dart' as http;
 import 'package:core_advn/common/base_bloc.dart';
+import 'package:smart_home_dev/common/model/weather.dart';
 
 class ChangeScrollHomeState extends BaseState {
   final bool expand;
@@ -10,24 +13,36 @@ class ChangeScrollHomeState extends BaseState {
 
 class ChangeIndexHomeState extends BaseState {
   final int id;
+
   const ChangeIndexHomeState(this.id);
 }
 
 class ChangeSortHomeState extends BaseState {
   final String sort;
+
   const ChangeSortHomeState(this.sort);
 }
 
+class GetValueWeatherEvent extends BaseEvent {
+  final String lat;
+  final String lon;
 
+  const GetValueWeatherEvent(this.lon, this.lat);
+}
+
+class GetValueWeatherState extends BaseState {
+  final Weather data;
+
+  const GetValueWeatherState(this.data);
+}
 
 class LoadPageHomeState extends BaseState {}
 
 class ChangeScrollHomeEvent extends BaseEvent {
   final bool expand;
+
   const ChangeScrollHomeEvent(this.expand);
 }
-
-
 
 class LoadTotalHomeState extends BaseState {
   final int total;
@@ -77,12 +92,21 @@ class LoadSubCataloguesHomeEvent extends BaseEvent {
 
 class HomeBloc extends BaseBloc {
   HomeBloc() {
-    on<ChangeScrollHomeEvent>((event, emit) => emit(ChangeScrollHomeState(event.expand)));
-    on<ChangeIndexHomeEvent>((event, emit) => emit(ChangeIndexHomeState(event.id)));
-    on<ChangeSortHomeEvent>((event, emit) => emit(ChangeSortHomeState(event.sort)));
+    on<ChangeScrollHomeEvent>(
+        (event, emit) => emit(ChangeScrollHomeState(event.expand)));
+    on<ChangeIndexHomeEvent>(
+        (event, emit) => emit(ChangeIndexHomeState(event.id)));
+    on<ChangeSortHomeEvent>(
+        (event, emit) => emit(ChangeSortHomeState(event.sort)));
     on<LoadPageHomeEvent>((event, emit) => emit(LoadPageHomeState()));
 
-    on<CountNotificationHomeEvent>((event, emit) => emit(CountNotificationHomeState(event.count)));
+    on<CountNotificationHomeEvent>(
+        (event, emit) => emit(CountNotificationHomeState(event.count)));
+
+    on<GetValueWeatherEvent>((event, emit) async {
+      final data = await GetValueWeather(event.lat, event.lon);
+      emit(GetValueWeatherState(data));
+    });
     // on<CountCartHomeEvent>((event, emit) async {
     //   final count = await Util.countCart();
     //   emit(CountCartState(count));
@@ -106,5 +130,21 @@ class HomeBloc extends BaseBloc {
     //       '${event.catalogueId}/children', SubCataloguesModel(), hasHeader: false);
     //   emit(LoadSubCataloguesHomeState(response));
     // });
+  }
+}
+
+Future GetValueWeather(String lat, String lon) async {
+  String filurl =
+      'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=5383ac85ab5fa5d68cc5dc2906229284&lang=vi';
+  try {
+    Weather data;
+    http.Response response = await http.get(Uri.parse(filurl));
+    var respon = json.decode(response.body);
+    data = weatherFromJson(respon);
+    return data;
+  } catch (e) {
+    // ignore: avoid_print
+    print('Server Handler : error : ' + e.toString());
+    rethrow;
   }
 }
