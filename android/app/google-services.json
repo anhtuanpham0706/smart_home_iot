@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "811717147083",
-    "firebase_url": "https://smarthomedev-5b043-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "smarthomedev-5b043",
-    "storage_bucket": "smarthomedev-5b043.appspot.com"
+    "project_number": "92780198085",
+    "firebase_url": "https://smarthomefinal-b925f-default-rtdb.firebaseio.com",
+    "project_id": "smarthomefinal-b925f",
+    "storage_bucket": "smarthomefinal-b925f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:811717147083:android:211b1eaa3168eed8d25e4e",
+        "mobilesdk_app_id": "1:92780198085:android:cf11e9e48db04fd0bf98ac",
         "android_client_info": {
           "package_name": "com.smart.smarthome.dev"
         }
       },
       "oauth_client": [
         {
-          "client_id": "811717147083-1fbet6ceh9817es2q1ieenhjkv2v9qe3.apps.googleusercontent.com",
+          "client_id": "92780198085-qimtoctt620d38o2u5nklddrtdrvgv9i.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.smart.smarthome.dev",
@@ -23,24 +23,24 @@
           }
         },
         {
-          "client_id": "811717147083-arg7fiqef3d6234fei1se637o8tsvpia.apps.googleusercontent.com",
+          "client_id": "92780198085-9cfcfumfi8epqe796dk1o0pn4jn1jbst.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCRUvP9X_V0_j1msVXmsyWIek79_3dmcpw"
+          "current_key": "AIzaSyBT6fC5E7yP7wan3b4TAqK8pVCr2sZ7I0Y"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "811717147083-arg7fiqef3d6234fei1se637o8tsvpia.apps.googleusercontent.com",
+              "client_id": "92780198085-9cfcfumfi8epqe796dk1o0pn4jn1jbst.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "811717147083-gdmdt36scf9vhbkiulpm99f164m89tga.apps.googleusercontent.com",
+              "client_id": "92780198085-43vtus40q5ucuabrvst6a4o197qsjkg3.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.smart.smarthome.dev"

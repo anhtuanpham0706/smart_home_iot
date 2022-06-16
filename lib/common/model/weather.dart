@@ -17,7 +17,6 @@ class Weather {
     required this.main,
     required this.visibility,
     required this.wind,
-    required this.rain,
     required this.clouds,
     required this.dt,
     required this.sys,
@@ -33,7 +32,6 @@ class Weather {
   Main main;
   int visibility;
   Wind wind;
-  Rain rain;
   Clouds clouds;
   int dt;
   Sys sys;
@@ -50,7 +48,7 @@ class Weather {
         main: Main.fromJson(json["main"]),
         visibility: json["visibility"],
         wind: Wind.fromJson(json["wind"]),
-        rain: Rain.fromJson(json["rain"]),
+        // rain: Rain.fromJson(json["rain"]),
         clouds: Clouds.fromJson(json["clouds"]),
         dt: json["dt"],
         sys: Sys.fromJson(json["sys"]),
@@ -67,7 +65,6 @@ class Weather {
         "main": main.toJson(),
         "visibility": visibility,
         "wind": wind.toJson(),
-        "rain": rain.toJson(),
         "clouds": clouds.toJson(),
         "dt": dt,
         "sys": sys.toJson(),

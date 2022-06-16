@@ -26,7 +26,7 @@ class MainPageState extends BasePageState with WidgetsBindingObserver {
   FlutterLocalNotificationsPlugin? _localNotify;
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
-  DatabaseReference ref = FirebaseDatabase.instance.ref("LED_TEST");
+  DatabaseReference ref = FirebaseDatabase.instance.ref("Phong/Gas");
 
   @override
   void dispose() {
@@ -41,8 +41,8 @@ class MainPageState extends BasePageState with WidgetsBindingObserver {
       setState(() {
         _data = data.toString();
         if (_data == '1') {
-          NotificationService()
-              .showNotification(1, 'hello word', 'test real time data base');
+          NotificationService().showNotification(
+              1, 'Cảnh Báo Nguy Hiểm', 'Nhà bạn đang có dấu hiệu hoả ');
         }
       });
     });

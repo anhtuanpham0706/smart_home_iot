@@ -1,13 +1,16 @@
-
-
 import 'dart:convert';
 
+import 'package:core_advn/common/base_response.dart';
 import 'package:http/http.dart' as http;
 import 'package:core_advn/common/base_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_home_dev/common/model/weather.dart';
+
+import '../../common/constants.dart';
 
 class ChangeScrollHomeState extends BaseState {
   final bool expand;
+
   const ChangeScrollHomeState(this.expand);
 }
 
@@ -132,15 +135,40 @@ class HomeBloc extends BaseBloc {
     // });
   }
 }
+// Future<BaseResponse> getAPI(String path, data, {bool hasHeader = true, bool hasDomain = true}) async {
+//   final baseResponse = BaseResponse();
+//   try {
+//     http.Response response;
+//     final prefs = await SharedPreferences.getInstance();
+//     if (hasHeader && prefs.containsKey(Constants.isLogin) &&
+//         prefs.getBool(Constants.isLogin)!) {
+//       response = await httpClient.get(Uri.parse(Constants.baseUrl + path),
+//           headers: await _getHeader()).timeout(const Duration(seconds: 20));
+//     } else {
+//       response = await httpClient.get(Uri.parse((hasDomain ? Constants.baseUrl : '') + path))
+//           .timeout(const Duration(seconds: 20));
+//     }
+//     baseResponse.fromJson(jsonDecode(response.body), data);
+//   } catch (e) {
+//
+//   }
+//   return baseResponse;
+// }
 
 Future GetValueWeather(String lat, String lon) async {
+  Map<String, String> headers = {
+    'Content-Type': 'application/json;charset=UTF-8',
+    'Charset': 'utf-8'
+  };
   String filurl =
-      'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=5383ac85ab5fa5d68cc5dc2906229284&lang=vi';
+      'https://api.openweathermap.org/data/2.5/weather?lat=10.7608698&lon=106.6796784&appid=5383ac85ab5fa5d68cc5dc2906229284&lang=vi';
   try {
     Weather data;
-    http.Response response = await http.get(Uri.parse(filurl));
-    var respon = json.decode(response.body);
-    data = weatherFromJson(respon);
+    http.Response response =
+        await http.Client().get(Uri.parse(filurl), headers: headers);
+    print(response);
+    // var respon = json.decode(response.toString());
+    data = weatherFromJson(response.body);
     return data;
   } catch (e) {
     // ignore: avoid_print

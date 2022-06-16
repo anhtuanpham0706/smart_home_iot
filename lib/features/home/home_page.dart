@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:smart_home_dev/common/model/room.dart';
 import 'package:smart_home_dev/common/model/room_service.dart';
+import 'package:smart_home_dev/common/model/weather.dart';
 
 import 'package:smart_home_dev/common/smarthome_style.dart';
 import 'package:smart_home_dev/common/ui/button_custom.dart';
@@ -36,6 +37,7 @@ class _HomePageState extends BasePageState {
   final ScrollController _scrollController = ScrollController();
   final _roomRef = FirebaseDatabase.instance.ref();
   late Position _currentPosition;
+  late Weather _weather;
   String _dropName = '';
   String _dropImage = '';
   String _type_room = '';
@@ -194,24 +196,30 @@ class _HomePageState extends BasePageState {
   @override
   void initBloc() {
     bloc = HomeBloc();
+    bloc?.stream.listen((state) {
+      if (state is GetValueWeatherState) {
+        _weather = state.data;
+      }
+    });
   }
+
   @override
   void initUI() {
     // _determinePosition();
     _getCurrentLocation();
-    bloc?.add(GetValueWeatherEvent(_currentPosition.longitude.toString(),
-        _currentPosition.latitude.toString()));
   }
 
-  _getCurrentLocation() {
-    Geolocator.getCurrentPosition(
+  _getCurrentLocation() async {
+    await Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.best,
             forceAndroidLocationManager: true)
         .then((Position position) {
       setState(() {
         _currentPosition = position;
-        print(_currentPosition.longitude);
-        print(_currentPosition.latitude);
+        bloc?.add(GetValueWeatherEvent(
+            position.longitude.toString(), position.latitude.toString()));
+        // print(_currentPosition.longitude);
+        // print(_currentPosition.latitude);
       });
     }).catchError((e) {
       print(e);
