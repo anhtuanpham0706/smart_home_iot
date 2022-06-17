@@ -3,8 +3,10 @@ import 'dart:async';
 
 import 'package:core_advn/common/ui/base_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:smart_home_dev/common/language_key.dart';
 import 'package:smart_home_dev/common/model/item_list_model.dart';
 import 'package:smart_home_dev/common/ui/base_page_state.dart';
+import 'package:smart_home_dev/features/verify_code/ui/verify_code_page_ui.dart';
 import 'package:smart_home_dev/features/verify_code/verify_code_bloc.dart';
 
 class VerifyCodePage extends BasePage {
@@ -30,20 +32,31 @@ class _VerifyCodePageState extends BasePageState {
   }
 
   @override
-  Widget createUI(BuildContext context) => Container();
-      // VerifyCodePageUI(_ctrNum, (widget as VerifyCodePage).phone, _countDown, bloc as VerifyCodeBloc,
-      //     back, _signInFirebase, _resend);
+  Widget createUI(BuildContext context) => VerifyCodePageUI(
+      _ctrNum,
+      (widget as VerifyCodePage).phone,
+      _countDown,
+      bloc as VerifyCodeBloc,
+      back,
+      _signInFirebase,
+      _resend);
 
   @override
   void initBloc() {
     bloc = VerifyCodeBloc();
     bloc?.stream.listen((state) {
-      //if (state is CheckVerifyCodeState && checkResponse(state.response))
-      //  back(value: ItemModel(id: (widget as VerifyCodePage).phone, name: _ctrNum.text, select: true));
+      if (state is CheckVerifyCodeState && checkResponse(state.response))
+        back(
+            value: ItemModel(
+                id: (widget as VerifyCodePage).phone,
+                name: _ctrNum.text,
+                select: true));
       //else if (state is ForgetPassVerifyCodeState &&
       //    checkResponse(state.response)) _setCountDown();
-      if (state is ShowLoadingState) _isLoading = state.showLoading;
-      else if (state is ShowResendVerifyCodeState && state.show) _isLoading = false;
+      if (state is ShowLoadingState)
+        _isLoading = state.showLoading;
+      else if (state is ShowResendVerifyCodeState && state.show)
+        _isLoading = false;
     });
     _setCountDown();
   }
@@ -70,7 +83,8 @@ class _VerifyCodePageState extends BasePageState {
     });
   }
 
-  //void _confirm() => bloc.add(CheckVerifyCodeEvent((widget as VerifyCodePage).phone, _ctrNum.text));
+  void _confirm() => bloc?.add(
+      CheckVerifyCodeEvent((widget as VerifyCodePage).phone, _ctrNum.text));
 
   //void _resend() {
   //final page = widget as VerifyCodePage;
@@ -112,7 +126,7 @@ class _VerifyCodePageState extends BasePageState {
     }
     catch(_) {}
     if (otp < 100000 || _ctrNum.text.length != 6) {
-      // _showMessage(LanguageKey.msgInvalidCode);
+      _showMessage(LanguageKey.msgInvalidCode);
       return;
     }
 
@@ -124,17 +138,16 @@ class _VerifyCodePageState extends BasePageState {
       bloc?.add(const ShowLoadingEvent());
       if (user.user != null) {
         final page = widget as VerifyCodePage;
-        back(value: ItemModel(id: user.user?.phoneNumber??'', name: user.user?.uid??'', select:
-        page.type != page.runtimeType.toString()));
+        back(value: ItemModel(id: user.user?.phoneNumber??'', name: user.user?.uid??'', select: page.type != page.runtimeType.toString()));
       } else {
         // _showMessage(LanguageKey.msgVerifyFail);
       }
-
     }).catchError((e) {
       // _showMessage(LanguageKey.msgVerifyFail);
     });
   }
 
-  // void _showMessage(String msg) => UtilUI.showCustomAlertDialog(context, MultiLanguage.get(msg))
-  //     .then((value) => bloc?.add(const ShowLoadingEvent()));
+  void _showMessage(String msg) =>
+      CoreUtilUI.showCustomAlertDialog(context, MultiLanguage.get(msg))
+          .then((value) => bloc?.add(const ShowLoadingEvent()));
 }

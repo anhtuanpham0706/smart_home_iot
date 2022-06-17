@@ -161,7 +161,7 @@ Future GetValueWeather(String lat, String lon) async {
     'Charset': 'utf-8'
   };
   String filurl =
-      'https://api.openweathermap.org/data/2.5/weather?lat=10.7608698&lon=106.6796784&appid=5383ac85ab5fa5d68cc5dc2906229284&lang=vi';
+      'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=5383ac85ab5fa5d68cc5dc2906229284&lang=vi';
   try {
     Weather data;
     http.Response response =

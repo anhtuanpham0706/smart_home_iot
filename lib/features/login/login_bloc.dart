@@ -56,11 +56,6 @@ class SignInOthersState extends BaseState {
 class LoginBloc extends BaseBloc {
   LoginBloc() {
     on<ForgetPassLoginEvent>((event, emit) async {
-      on<ChangeRememberLoginEvent>((event, emit) async {
-        final prefs = await SharedPreferences.getInstance();
-        prefs.setBool(Constants.isRemember, event.isRemember);
-        emit(ChangeRememberLoginState(event.isRemember));
-      });
       // on<SaveDeviceLoginEvent>((event, emit) async {
       //   emit(const BaseState(showLoading: true));
       //   final response = await _saveDevice(event.info);
@@ -84,6 +79,11 @@ class LoginBloc extends BaseBloc {
       //   'loginkey': event.key
       // });
       // emit(ForgetPassLoginState(response, event.key));
+    });
+    on<ChangeRememberLoginEvent>((event, emit) async {
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setBool(Constants.isRemember, event.isRemember);
+      emit(ChangeRememberLoginState(event.isRemember));
     });
     // on<SignInOthersEvent>((event, emit) async {
     //   emit(const BaseState(showLoading: true));

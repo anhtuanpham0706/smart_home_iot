@@ -1,4 +1,5 @@
 import 'package:core_advn/common/ui/base_page.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_home_dev/common/constants.dart';
 import 'package:smart_home_dev/common/language_key.dart';
@@ -7,6 +8,21 @@ import 'package:smart_home_dev/common/ui/text_field_underline.dart';
 import 'package:smart_home_dev/features/login/login_page.dart';
 
 class UtilUI {
+  static Future<void> setTheme() =>
+      SharedPreferences.getInstance().then((prefs) async {
+        if (prefs.containsKey('housekey'))
+          Constants.housekey = '${prefs.getInt('housekey')}';
+
+        if (prefs.containsKey(Constants.isLogin) &&
+            prefs.getBool(Constants.isLogin)!) {
+          String? token = await FirebaseMessaging.instance.getToken();
+          if (token != null && token.isNotEmpty)
+            prefs.setString(Constants.fireBaseToken, token);
+          Constants.valueLogin = true;
+          // Constants.avatar = prefs.getString(Constants.keyImage)!;
+        }
+      });
+
   static void goBack(BuildContext context, value) =>
       Navigator.of(context).pop(value);
 
@@ -30,11 +46,11 @@ class UtilUI {
 
   static Future<dynamic> showConfirmDialog(BuildContext context,
       {String? title,
-      String keyLabel = LanguageKey.lblYourEmail,
-      String initValue = '',
-      bool isActionCancel = false,
-      bool dismissible = false,
-      TextInputType type = TextInputType.emailAddress}) {
+        String keyLabel = LanguageKey.lblYourEmail,
+        String initValue = '',
+        bool isActionCancel = false,
+        bool dismissible = false,
+        TextInputType type = TextInputType.emailAddress}) {
     final TextEditingController controller = TextEditingController();
     controller.text = initValue;
 
@@ -80,9 +96,8 @@ class UtilUI {
     return false;
   }
 
-  static Future<bool?> showCustomAlertDialog(
-          BuildContext context, String message,
-          {String? title, bool isActionCancel = false}) =>
+  static Future<bool?> showCustomAlertDialog(BuildContext context, String message,
+      {String? title, bool isActionCancel = false}) =>
       CoreUtilUI.showCustomAlertDialog(context, message,
           title: title,
           isActionCancel: isActionCancel,
@@ -90,14 +105,14 @@ class UtilUI {
           elevation: SmartHomeStyle.elevation);
 
   static Future<dynamic> showOptionDialog(BuildContext context, String title,
-          final List<dynamic> values, String id) =>
+      final List<dynamic> values, String id) =>
       CoreUtilUI.showOptionDialog(context, title, values, id,
           primaryColor: SmartHomeStyle.primaryColor);
 
   static saveInfo(String info,
-          {bool saveAccount = false,
-          dynamic nextPage,
-          BuildContext? context}) =>
+      {bool saveAccount = false,
+        dynamic nextPage,
+        BuildContext? context}) =>
       SharedPreferences.getInstance().then((prefs) {
         // prefs.setInt(Constants.keyId, info.id);
         // prefs.setString(Constants.keyName, info.name);
@@ -124,7 +139,7 @@ class UtilUI {
       });
 
   static void logout(BuildContext context,
-          {bool saveCarts = true, bool openLogin = true}) =>
+      {bool saveCarts = true, bool openLogin = true}) =>
       SharedPreferences.getInstance().then((prefs) {
         // final lang = prefs.getString('lang')??Languages().vi;
         // final key = prefs.getString(Constants.keyLogin);
@@ -138,10 +153,10 @@ class UtilUI {
         // final accounts = prefs.getString('accounts')??'{}';
         // prefs.clear();
         // if (saveCarts) prefs.setString(Constants.carts, carts);
-        prefs.setString(Constants.keyLogin, '');
-        prefs.setString(Constants.keyPassword, '');
+        // prefs.setString(Constants.keyLogin, '');
+        // prefs.setString(Constants.keyPassword, '');
         // prefs.setBool(Constants.isRemember, remember!);
-        // prefs.setBool(Constants.isLogin, false);
+        prefs.setBool(Constants.isLogin, false);
         // prefs.setBool('hasSlide', false);
         // prefs.setString('lang', lang);
         // prefs.setString('shop', shops);

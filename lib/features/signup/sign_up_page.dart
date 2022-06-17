@@ -1,14 +1,12 @@
-
-
-
-
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:smart_home_dev/common/language_key.dart';
+import 'package:smart_home_dev/common/model/item_list_model.dart';
 import 'package:smart_home_dev/features/signup/sign_up_bloc.dart';
 import 'package:smart_home_dev/features/signup/ui/sign_up_page_dev.dart';
 import 'package:smart_home_dev/features/signup/ui/sign_up_page_ui.dart';
+import 'package:smart_home_dev/features/verify_code/verify_code_page.dart';
 
 import '../../common/ui/base_page_state.dart';
-
 
 class SignUpPage extends BasePage {
   SignUpPage({Key? key}) : super(_SignUpPageState(), key: key);
@@ -54,24 +52,47 @@ class _SignUpPageState extends BasePageState {
 
   void _signUp() {
     clearFocus();
-    // if (_ctrEmail.text.isEmpty) {
-    //   UtilUI.showCustomAlertDialog(context, MultiLanguage.get(LanguageKey.msgInputPhoneNumber))
-    //       .then((value) => _focusEmail.requestFocus());
-    //   return;
-    // }
-    //
-    // if (_ctrPass.text.isEmpty) {
-    //   UtilUI.showCustomAlertDialog(context, MultiLanguage.get(LanguageKey.msgInputPassword))
-    //       .then((value) => _focusPass.requestFocus());
-    //   return;
-    // }
+    if (_ctrEmail.text.isEmpty) {
+      CoreUtilUI.showCustomAlertDialog(
+              context, MultiLanguage.get(LanguageKey.msgInputPhoneNumber))
+          .then((value) => _focusEmail.requestFocus());
+      return;
+    }
+
+    if (_ctrPass.text.isEmpty) {
+      CoreUtilUI.showCustomAlertDialog(
+              context, MultiLanguage.get(LanguageKey.msgInputPassword))
+          .then((value) => _focusPass.requestFocus());
+      return;
+    }
     // bloc?.add(CheckDuplicatePhoneEvent(_ctrEmail.text));
+    CoreUtilUI.goToPage(context, VerifyCodePage(_ctrPhone.text),
+        hasBack: true, callback: _finishSignUp);
   }
 
   void _finishSignUp(dynamic result) {
-    // result != null && result is ItemModel && result.id.replaceFirst('+84', '0') == _ctrEmail.text ?
-    // bloc?.add(FinishSignUpEvent(_ctrEmail.text, _ctrPass.text))
-    //     : UtilUI.showCustomAlertDialog(context, MultiLanguage.get(LanguageKey.msgVerifyFail));
+    result != null &&
+            result is ItemModel &&
+            result.id.replaceFirst('+84', '0') == _ctrPhone.text
+        ? _confirmSignUp(_ctrEmail.text, _ctrPass.text)
+        : CoreUtilUI.showCustomAlertDialog(
+            context, MultiLanguage.get(LanguageKey.msgVerifyFail));
+  }
+
+  void _confirmSignUp(String email, String pass) {
+    FirebaseAuth.instance
+        .createUserWithEmailAndPassword(email: email, password: pass)
+        .then((value) {
+      print("Created New Account");
+      CoreUtilUI.showCustomAlertDialog(
+              context, MultiLanguage.get(LanguageKey.msgSignUpSuccess),
+              title: MultiLanguage.get(LanguageKey.ttlNotify))
+          .then((value) => SharedPreferences.getInstance().then((prefs) {
+                back();
+              }));
+      // Navigator.push(context,
+      //     MaterialPageRoute(builder: (context) => HomeScreen()));
+    });
   }
 
   void _signUpWithGoogle() => bloc?.add(const SignUpOthersEvent('google'));

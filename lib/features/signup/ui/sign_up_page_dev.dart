@@ -41,21 +41,43 @@ class SignUpPageDev extends StatelessWidget {
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(32.sp), topRight: Radius.circular(32.sp))
             ),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              TextCustom('Đăng ký', size: 24.sp,
-                  weight: FontWeight.w500, color: const Color(0xFF434343)),
+              TextCustom('Đăng ký',
+                  size: 24.sp,
+                  weight: FontWeight.w500,
+                  color: const Color(0xFF434343)),
               SizedBox(height: 16.sp),
-              ThemeTextField(ctrEmail, focusEmail, Icons.mail_outline_outlined, 'Email', type: TextInputType.phone),
+              ThemeTextField(ctrPhone, focusPhone, Icons.phone_android, 'Phone',
+                  type: TextInputType.phone),
+              SizedBox(height: 16.sp),
+              ThemeTextField(
+                  ctrEmail, focusEmail, Icons.mail_outline_outlined, 'Email',
+                  type: TextInputType.emailAddress),
               SizedBox(height: 16.sp),
               ThemeTextField(ctrPass, focusPass, Icons.lock_outline, 'Mật khẩu',
-                  password: true, action: TextInputAction.done, funDone: signUp),
-              Container(width: 1.sw, padding: EdgeInsets.fromLTRB(24.sp, 24.sp, 24.sp, 24.sp),
-                  child: ButtonCustom(signUp, TextCustom('Đăng Ký',
-                      size: 18.sp, color: Colors.white, fontFamily: 'Segoe UI',
-                      weight: FontWeight.bold), padding: 10.sp, elevation: 0,color: const Color(0xFFCB7120),)),
-              Align(alignment: Alignment.centerRight, child:
-              ButtonCustomTransparent(back,
-                  TextCustom('Đăng nhập', size: 14.sp,
-                      color: const Color(0xFFCB7120), weight: FontWeight.w500),
+                  password: true,
+                  action: TextInputAction.done,
+                  funDone: signUp),
+              Container(
+                  width: 1.sw,
+                  padding: EdgeInsets.fromLTRB(24.sp, 24.sp, 24.sp, 24.sp),
+                  child: ButtonCustom(
+                    signUp,
+                    TextCustom('Đăng Ký',
+                        size: 18.sp,
+                        color: Colors.white,
+                        fontFamily: 'Segoe UI',
+                        weight: FontWeight.bold),
+                    padding: 10.sp,
+                    elevation: 0,
+                    color: const Color(0xFFCB7120),
+                  )),
+              Align(
+                  alignment: Alignment.centerRight,
+                  child: ButtonCustomTransparent(
+                      back,
+                      TextCustom('Đăng nhập',
+                          size: 14.sp,
+                          color: const Color(0xFFCB7120), weight: FontWeight.w500),
                   padding: EdgeInsets.all(5.sp))
               )
             ])

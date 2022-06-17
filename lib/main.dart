@@ -8,6 +8,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:smart_home_dev/common/notificationservice.dart';
+import 'package:smart_home_dev/common/utils/util_ui.dart';
 import 'package:smart_home_dev/features/splash_page.dart';
 import 'package:smart_home_dev/features/test_notification/test_noti_page.dart';
 import 'features/main/main_bloc.dart';
@@ -74,28 +75,30 @@ class _MyAppState extends State<MyApp> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     MultiLanguage.setLanguage().then((value) => _changeState());
-
+    UtilUI.setTheme().then((value) => _changeState());
   }
 
   void _changeState() {
     loading++;
-    if (loading == 1) setState((){});
+    if (loading == 2) setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-  if (loading ==1) {
-    return ScreenUtilInit(
-        designSize: const Size(400, 600),
-        minTextAdapt: true,
-        splitScreenMode: true,
-        builder: () => MultiBlocProvider(
-            providers: [BlocProvider<MainBloc>(create: (context) => MainBloc())],
-            child: MaterialApp(home: const SplashPage(),
-              key: key, debugShowCheckedModeBanner: false,
-              // theme: ThemeData(fontFamily: ThemeModel.font, primaryColor: ECommerceStyle.primaryColor)
-            )
-        ));
+    if (loading == 2) {
+      return ScreenUtilInit(
+          designSize: const Size(400, 600),
+          minTextAdapt: true,
+          splitScreenMode: true,
+          builder: () => MultiBlocProvider(
+                  providers: [
+                    BlocProvider<MainBloc>(create: (context) => MainBloc())
+                  ],
+                  child: MaterialApp(
+                    home: const SplashPage(),
+                    key: key, debugShowCheckedModeBanner: false,
+                    // theme: ThemeData(fontFamily: ThemeModel.font, primaryColor: ECommerceStyle.primaryColor)
+                  )));
   }
     // if (loading == 2) {
     //   return ScreenUtilInit(

@@ -108,8 +108,10 @@ class _HomePageState extends BasePageState {
                                   size: 15.sp,color: Colors.black,),
                                 Row(
                                   children: [
-                                    TextCustom('80',
-                                        size: 50.sp, weight: SmartHomeStyle.mediumWeight),
+                                    TextCustom(
+                                        _weather.main.humidity.toString(),
+                                        size: 50.sp,
+                                        weight: SmartHomeStyle.mediumWeight),
                                     TextCustom('%',
                                         size: 15.sp, weight: SmartHomeStyle.mediumWeight),
                                   ],
@@ -137,8 +139,9 @@ class _HomePageState extends BasePageState {
                                 width: 30.sp,
                                 child: Image.asset('assets/images/theme/sun_cloud.png'),
                               ),
-                              TextCustom('Nhiều Mây',
-                                  size: 20.sp, weight: SmartHomeStyle.mediumWeight),
+                              TextCustom(_weather.weather[0].description,
+                                  size: 20.sp,
+                                  weight: SmartHomeStyle.mediumWeight),
                               Row(
                                 children: [
                                   TextCustom('H:32°',
@@ -152,16 +155,23 @@ class _HomePageState extends BasePageState {
                           ),
                           Spacer(),
                           SizedBox(
-                            child: Row(
+                            child: Column(
                               children: [
                                 SizedBox(
                                   height: 25.sp,
                                   width: 25.sp,
-                                  child: Image.asset('assets/images/theme/location.png'),
+                                  child: Image.asset(
+                                      'assets/images/theme/location.png'),
                                 ),
-                                TextCustom('Thủ Đức',
-                                  size: 20.sp, weight: SmartHomeStyle.mediumWeight,color: Colors.white,),
-                                SizedBox(width: 20.sp,)
+                                TextCustom(
+                                  _weather.name,
+                                  size: 20.sp,
+                                  weight: SmartHomeStyle.mediumWeight,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(
+                                  width: 20.sp,
+                                )
                               ],
                             ),
                           ),
@@ -198,7 +208,9 @@ class _HomePageState extends BasePageState {
     bloc = HomeBloc();
     bloc?.stream.listen((state) {
       if (state is GetValueWeatherState) {
-        _weather = state.data;
+        setState(() {
+          _weather = state.data;
+        });
       }
     });
   }
@@ -226,42 +238,7 @@ class _HomePageState extends BasePageState {
     });
   }
 
-  Future<Position> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
 
-    // Test if location services are enabled.
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      // Location services are not enabled don't continue
-      // accessing the position and request users of the
-      // App to enable the location services.
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        // Permissions are denied, next time you could try
-        // requesting permissions again (this is also where
-        // Android's shouldShowRequestPermissionRationale
-        // returned true. According to Android guidelines
-        // your App should show an explanatory UI now.
-        return Future.error('Location permissions are denied');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-
-    // When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition();
-  }
   void _menuAction() => (widget as HomePage).funOpenDrawer();
   Widget _getDeviceList() {
     return Expanded(
@@ -310,7 +287,6 @@ class _HomePageState extends BasePageState {
                               style: TextStyle(fontSize: 15,color: Colors.black,fontWeight: FontWeight.bold),),
                           ],
                         ),
-
                       ],
                     ),
                   ),
