@@ -15,6 +15,7 @@ class VerifyCodePage extends BasePage {
 }
 
 class _VerifyCodePageState extends BasePageState {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _ctrNum = TextEditingController();
   int _countDown = 90, _totalSend = 0;
   Timer? _timer;
@@ -45,13 +46,13 @@ class _VerifyCodePageState extends BasePageState {
   void initBloc() {
     bloc = VerifyCodeBloc();
     bloc?.stream.listen((state) {
-      if (state is CheckVerifyCodeState && checkResponse(state.response))
-        back(
-            value: ItemModel(
-                id: (widget as VerifyCodePage).phone,
-                name: _ctrNum.text,
-                select: true));
-      //else if (state is ForgetPassVerifyCodeState &&
+      // if (state is CheckVerifyCodeState) {
+      //   back(
+      //       value: ItemModel(
+      //           id: (widget as VerifyCodePage).phone,
+      //           name: _ctrNum.text,
+      //           select: true));
+      // } else if (state is ForgetPassVerifyCodeState &&
       //    checkResponse(state.response)) _setCountDown();
       if (state is ShowLoadingState)
         _isLoading = state.showLoading;
@@ -102,7 +103,7 @@ class _VerifyCodePageState extends BasePageState {
     final PhoneCodeSent smsOTPSent = (String verId, [int? forceCodeResend]) {
       verificationId = verId;
     };
-    FirebaseAuth.instance.verifyPhoneNumber(
+    _auth.verifyPhoneNumber(
         phoneNumber: '+84${(widget as VerifyCodePage).phone}',
         codeAutoRetrievalTimeout: (String verId) {
           verificationId = verId;
@@ -134,7 +135,7 @@ class _VerifyCodePageState extends BasePageState {
       verificationId: verificationId,
       smsCode: _ctrNum.text,
     );
-    FirebaseAuth.instance.signInWithCredential(credential).then((user) {
+    _auth.signInWithCredential(credential).then((user) {
       bloc?.add(const ShowLoadingEvent());
       if (user.user != null) {
         final page = widget as VerifyCodePage;

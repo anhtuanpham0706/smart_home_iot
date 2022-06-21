@@ -42,7 +42,7 @@ class MainPageState extends BasePageState with WidgetsBindingObserver {
         _data = data.toString();
         if (_data == '1') {
           NotificationService().showNotification(
-              1, 'Cảnh Báo Nguy Hiểm', 'Nhà bạn đang có dấu hiệu hoả ');
+              1, 'Cảnh Báo Nguy Hiểm', 'Nhà bạn đang có dấu hiệu hoả hoạn');
         }
       });
     });

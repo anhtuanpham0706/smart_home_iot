@@ -36,8 +36,8 @@ class _HomePageState extends BasePageState {
   final FocusNode _focusRoom = FocusNode();
   final ScrollController _scrollController = ScrollController();
   final _roomRef = FirebaseDatabase.instance.ref();
-  late Position _currentPosition;
-  late Weather _weather;
+  //late Position _currentPosition;
+  Weather? _weather;
   String _dropName = '';
   String _dropImage = '';
   String _type_room = '';
@@ -108,15 +108,14 @@ class _HomePageState extends BasePageState {
                                   size: 15.sp,color: Colors.black,),
                                 Row(
                                   children: [
-                                    TextCustom(
-                                        _weather.main.humidity.toString(),
+                                    if(_weather!=null)TextCustom(
+                                        _weather!.main.humidity.toString(),
                                         size: 50.sp,
                                         weight: SmartHomeStyle.mediumWeight),
                                     TextCustom('%',
                                         size: 15.sp, weight: SmartHomeStyle.mediumWeight),
                                   ],
                                 ),
-
 
                               ],
                             ),
@@ -139,7 +138,7 @@ class _HomePageState extends BasePageState {
                                 width: 30.sp,
                                 child: Image.asset('assets/images/theme/sun_cloud.png'),
                               ),
-                              TextCustom(_weather.weather[0].description,
+                              if(_weather!=null) TextCustom(_weather!.weather[0].description,
                                   size: 20.sp,
                                   weight: SmartHomeStyle.mediumWeight),
                               Row(
@@ -163,11 +162,12 @@ class _HomePageState extends BasePageState {
                                   child: Image.asset(
                                       'assets/images/theme/location.png'),
                                 ),
-                                TextCustom(
-                                  _weather.name,
-                                  size: 20.sp,
+                                if(_weather!=null)TextCustom(
+                                  _weather!.name,
+                                  size: 15.sp,
                                   weight: SmartHomeStyle.mediumWeight,
                                   color: Colors.white,
+                                  maxLine: 1,
                                 ),
                                 SizedBox(
                                   width: 20.sp,
@@ -221,13 +221,13 @@ class _HomePageState extends BasePageState {
     _getCurrentLocation();
   }
 
-  _getCurrentLocation() async {
-    await Geolocator.getCurrentPosition(
+  _getCurrentLocation() {
+    Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.best,
             forceAndroidLocationManager: true)
         .then((Position position) {
       setState(() {
-        _currentPosition = position;
+        //_currentPosition = position;
         bloc?.add(GetValueWeatherEvent(
             position.longitude.toString(), position.latitude.toString()));
         // print(_currentPosition.longitude);
