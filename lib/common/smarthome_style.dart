@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SmartHomeStyle {
-  static Color primaryColor = const Color(0xFFDB7A24);
+  static Color primaryColor = const Color(0xFF0B70B3);
   static const Color colorLine = Color(0xFFEAECF6);
   static const Color color3B = Color(0xFF3B3B3B);
   static const Color color41 = Color(0xFF414141);
