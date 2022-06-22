@@ -96,7 +96,7 @@ class _SplashPageState extends State<SplashPage> {
     if (Constants.valueLogin || !_startScroll) {
       return Container(
           color: Colors.white,
-          child: Image.asset('assets/images/theme/bg_theme3_splash.png',
+          child: Image.asset('assets/images/theme/ic_splash.png',
               fit: BoxFit.fill));
     }
     return Scaffold(
