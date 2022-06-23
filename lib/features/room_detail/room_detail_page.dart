@@ -50,11 +50,12 @@ class _RoomDetailPageState extends BasePageState {
   String _deviceImage = '';
   String _type_device = '';
   List<DeviceAdd> _device = [
-    DeviceAdd(name: 'Light', image: 'assets/images/theme/Living_room_light.png'),
-    DeviceAdd(name: 'Television', image: 'assets/images/theme/television.png'),
-    DeviceAdd(name: 'Fan', image: 'assets/images/theme/fan.png'),
-    DeviceAdd(name: 'Air Conditioner', image: 'assets/images/theme/air_conditioner.png'),
-
+    DeviceAdd(name: 'Đèn ngủ', image: 'assets/images/table-lamp.png'),
+    DeviceAdd(name: 'Đèn trần', image: 'assets/images/ceiling_light.png'),
+    DeviceAdd(name: 'Tivi', image: 'assets/images/tv.png'),
+    DeviceAdd(name: 'Quạt', image: 'assets/images/fan.png'),
+    DeviceAdd(name: 'Cổng', image: 'assets/images/gate.png'),
+    DeviceAdd(name: 'Rèm', image: 'assets/images/curtains.png'),
   ];
 
 
@@ -198,52 +199,52 @@ class _RoomDetailPageState extends BasePageState {
     );
   }
   Widget bottomSheet() {
-
-    return Container(
-      height: 300.0,
-      width: double.infinity,
-      margin: EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 20,
-      ),
-      child: Column(
-          children: <Widget>[
-            TextCustom('Chọn Thông số phòng',color: Colors.red,size: 18.sp,),
-            ThemeTextField(_ctrDetailRoom, _focusDetailRoom, Icons.phone_android_outlined, 'Name Room',type: TextInputType.name),
-            SizedBox(
-              width: 160,
-              child: DropdownButton(
-                hint: _deviceName == null
-                    ? Text('Chọn kiểu Thiết bị')
-                    : Text(
-                  _deviceName,
+    return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+      return Container(
+        height: 300.0,
+        width: double.infinity,
+        margin: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 20,
+        ),
+        child: Column(
+            children: <Widget>[
+              TextCustom('Chọn Thiết Bị',color: Colors.red,size: 18.sp,),
+              SizedBox(
+                width: 160,
+                child: DropdownButton(
+                  hint: _deviceName == null
+                      ? Text('Chọn kiểu Thiết bị')
+                      : Text(
+                    _deviceName,
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  isExpanded: true,
+                  iconSize: 30.0,
                   style: TextStyle(color: Colors.black),
-                ),
-                isExpanded: true,
-                iconSize: 30.0,
-                style: TextStyle(color: Colors.black),
-                items: _device.map(
-                      (DeviceAdd list) {
-                    return DropdownMenuItem<String>(
-                      value: list.name,
-                      child: Text(list.name),
+                  items: _device.map(
+                        (DeviceAdd list) {
+                      return DropdownMenuItem<String>(
+                        value: list.name,
+                        child: Text(list.name),
+                      );
+                    },
+                  ).toList(),
+                  onChanged: (val) {
+                    setState(
+                          () {
+                        _deviceName = val.toString();
+                        _change_image(_deviceName);
+                      },
                     );
                   },
-                ).toList(),
-                onChanged: (val) {
-                  setState(
-                        () {
-                      _deviceName = val.toString();
-                      _change_image(_deviceName);
-                    },
-                  );
-                },
+                ),
               ),
-            ),
-            ButtonCustom(_add_device,TextCustom('Thêm Phòng',color: Colors.blue,)),
-          ]),
+              ButtonCustom(_add_device,TextCustom('Thêm thiết bị',color: Colors.blue,)),
+            ]),
 
-    );
+      );
+    });
   }
   void _change_image(String typedevice){
     int index = 0;

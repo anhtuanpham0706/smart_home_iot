@@ -55,7 +55,7 @@ class Constants {
   static String roomkey = '-N2QNA3O37ztdtKJQGD7';
   static bool valueLogin = false;
   static bool showShop = false;
-  static bool hashousekey = false;
+  static bool hashousekey = true;
   static int paymentValue = -1;
   static String locale = localeVI;
   static String localeLang = localeVILang;

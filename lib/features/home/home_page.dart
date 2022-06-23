@@ -95,7 +95,7 @@ class _HomePageState extends BasePageState {
                             children: [
                               TextCustom('Nhiệt độ',
                                 size: 15.sp,color: Colors.black,),
-                              TextCustom('29°',
+                              if(_weather!=null)TextCustom('${(_weather!.main.temp - 273.15).toInt()}°',
                                 size: 50.sp,color: Colors.white,),
                             ],
                           ),
@@ -143,10 +143,10 @@ class _HomePageState extends BasePageState {
                                   weight: SmartHomeStyle.mediumWeight),
                               Row(
                                 children: [
-                                  TextCustom('H:32°',
+                                  if(_weather!=null)TextCustom('H:${(_weather!.main.tempMax - 273.15).toInt()}°',
                                     size: 17.sp, weight: SmartHomeStyle.mediumWeight,color: Colors.red,),
                                   SizedBox(width: 10.sp,),
-                                  TextCustom('L:27°',
+                                  if(_weather!=null)TextCustom('L:${(_weather!.main.tempMin - 273.15).toInt()}°',
                                     size: 17.sp, weight: SmartHomeStyle.mediumWeight,color: Colors.indigo,),
                                 ],
                               ),
@@ -332,52 +332,54 @@ class _HomePageState extends BasePageState {
     );
   }
   Widget bottomSheet() {
-    return Container(
-      height: 300.0,
-      width: double.infinity,
-      margin: EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 20,
-      ),
-      child: Column(
-        children: <Widget>[
-          TextCustom('Chọn Thông số phòng',color: Colors.red,size: 18.sp,),
-          ThemeTextField(_ctrRoom, _focusRoom, Icons.phone_android_outlined, 'Name Room',type: TextInputType.name),
-          SizedBox(
-            width: 160,
-            child: DropdownButton(
-              hint: _dropName == null
-                  ? Text('Chọn kiểu phòng')
-                  : Text(
-                _dropName,
-                style: TextStyle(color: Colors.black),
-              ),
-              isExpanded: true,
-              iconSize: 30.0,
-              style: TextStyle(color: Colors.black),
-              items: _room.map(
-                    (RoomAdd list) {
-                  return DropdownMenuItem<String>(
-                    value: list.name,
-                    child: Text(list.name),
-                  );
-                },
-              ).toList(),
-              onChanged: (val) {
-                setState(
-                      () {
-                        // _dropName = 'abc';
-                  _dropName = val.toString();
-                        // _change_image(_dropName);
-                },
-                );
-              },
+    return StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState){
+          return Container(
+            height: 300.0,
+            width: double.infinity,
+            margin: EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 20,
             ),
-          ),
-          ButtonCustom(_addRoom,TextCustom('Thêm Phòng',color: Colors.blue,)),
-          ]),
+            child: Column(
+                children: <Widget>[
+                  TextCustom('Chọn Thông số phòng',color: Colors.red,size: 18.sp,),
+                  ThemeTextField(_ctrRoom, _focusRoom, Icons.phone_android_outlined, 'Name Room',type: TextInputType.name),
+                  SizedBox(
+                    width: 160,
+                    child: DropdownButton(
+                      hint: _dropName == null
+                          ? Text('Chọn kiểu phòng')
+                          : Text(
+                        _dropName,
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      isExpanded: true,
+                      iconSize: 30.0,
+                      style: TextStyle(color: Colors.black),
+                      items: _room.map(
+                            (RoomAdd list) {
+                          return DropdownMenuItem<String>(
+                            value: list.name,
+                            child: Text(list.name),
+                          );
+                        },
+                      ).toList(),
+                      onChanged: (val) {
+                        setState(
+                              () {
+                            _dropName = val.toString();
+                            _change_image(_dropName);
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  ButtonCustom(_addRoom,TextCustom('Thêm Phòng',color: Colors.blue,)),
+                ]),
 
-    );
+          );
+        });
   }
   void _open_opision(){
     showModalBottomSheet(

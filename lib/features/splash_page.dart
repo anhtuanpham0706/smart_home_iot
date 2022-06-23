@@ -133,7 +133,7 @@ class _SplashPageState extends State<SplashPage> {
   void _skip() {
     if (_lockSkip) {
       SharedPreferences.getInstance().then((prefs) => prefs.setBool('hasSlide', false));
-      UtilUI.goToPage(context, Constants.hashousekey ? ShopPage() : LoginPage());
+      UtilUI.goToPage(context, Constants.hashousekey ? ShopPage() : LoginPage(),hasBack: true);
       // UtilUI.goToPage(context, LoginPage());
     }
   }

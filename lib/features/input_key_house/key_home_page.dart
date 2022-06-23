@@ -3,11 +3,15 @@
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_home_dev/common/smarthome_style.dart';
 import 'package:smart_home_dev/common/ui/base_page_state.dart';
 import 'package:smart_home_dev/common/ui/button_custom.dart';
 import 'package:smart_home_dev/common/ui/header.dart';
 import 'package:smart_home_dev/common/ui/text_custom.dart';
 import 'package:smart_home_dev/common/ui/theme_textfield.dart';
+import 'package:smart_home_dev/common/utils/util_ui.dart';
+import 'package:smart_home_dev/features/input_key_house/key_home_bloc.dart';
+import 'package:smart_home_dev/features/login/login_page.dart';
 
 class ShopPage extends BasePage {
   final bool changeSetting;
@@ -16,19 +20,11 @@ class ShopPage extends BasePage {
 
 class _ShopPageState extends BasePageState {
   final TextEditingController _ctrEmail = TextEditingController();
-  final TextEditingController _ctrPass = TextEditingController();
   final FocusNode _focusEmail = FocusNode();
-  final FocusNode _focusPass = FocusNode();
-  final DatabaseReference _deviceRef =
-  FirebaseDatabase.instance.ref().child('smart_home');
-  final DBref = FirebaseDatabase.instance.reference();
-  Object? value;
 
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
+  Map<String, bool> data = {};
+
 
   @override
   Widget build(BuildContext context, {Color color = Colors.white}) => super.build(context, color: const Color(0xFFF5F5F5));
@@ -55,7 +51,7 @@ class _ShopPageState extends BasePageState {
             Container(width: 1.sw, padding: EdgeInsets.fromLTRB(24.sp, 24.sp, 24.sp, 24.sp),
                 child: ButtonCustom(_submit, TextCustom('Kiểm Tra',
                     size: 18.sp, color: Colors.white, fontFamily: 'Segoe UI',
-                    weight: FontWeight.bold), padding: 10.sp, elevation: 0,color: const Color(0xFFCB7120),)),
+                    weight: FontWeight.bold), padding: 10.sp, elevation: 0,color: SmartHomeStyle.primaryColor,)),
           ],
         ),
       )
@@ -64,17 +60,28 @@ class _ShopPageState extends BasePageState {
 
   @override
   void initBloc() {
+    bloc = InputKeyHomeBloc();
+    bloc?.stream.listen((state) {
+      if (state is GetKeyHomeState) {
+        setState(() {
+          data = state.data;
+        });
+      }
+    });
+
     // bloc = ShopBloc();
   }
 
   @override
-  void initUI() => SharedPreferences.getInstance().then((prefs) {
-    if (prefs.containsKey('shop')) {
-      // final json = jsonDecode(prefs.getString('shop')!);
-      // _list.addAll(ShopsModel().fromJson(json).list);
-      // bloc!.add(ReloadListEvent());
-    }
-    /*if (_list.isEmpty) {
+  void initUI() {
+    bloc?.add(GetKeyHomeEvent());
+    SharedPreferences.getInstance().then((prefs) {
+      if (prefs.containsKey('shop')) {
+        // final json = jsonDecode(prefs.getString('shop')!);
+        // _list.addAll(ShopsModel().fromJson(json).list);
+        // bloc!.add(ReloadListEvent());
+      }
+      /*if (_list.isEmpty) {
         _addShop(ShopModel(id: 16, name: 'shop 16', image: '/uploads/202110/41/090303-dior.png'));
         _addShop(ShopModel(id: 66, name: 'shop 66', image: ''));
         _addShop(ShopModel(id: 166, name: 'shop 166', image: '/uploads/202110/41/090303-dior.png'));
@@ -82,17 +89,22 @@ class _ShopPageState extends BasePageState {
         _addShop(ShopModel(id: 1666, name: 'shop 1666', image: '/uploads/202110/41/090303-dior.png'));
         _addShop(ShopModel(id: 6666, name: 'shop 6666', image: ''));
       }*/
-  });
+    });
+  }
+
   void _submit() async{
-
-    // await DBref.child('Nhiet_do').once().then((DataSnapshot snapshot) =>
-    // temp = snapshot.value);
-    DataSnapshot snapshot = (await _deviceRef.child("smart_home").child("0929317227")) as DataSnapshot;
-
-    if (snapshot.value != null) {
-
+    if(data.containsKey(_ctrEmail.text)){
+      print('okey nha');
+      _saveShop();
+    } else {
+      print('Mã không tồn tại');
+    }
   }
-  }
+  void _saveShop() => SharedPreferences.getInstance().then((prefs) {
+    prefs.setString('housekey', _ctrEmail.text);
+    UtilUI.goToPage(context, LoginPage(),hasBack: true);
+    // _showButtonMenu();
+  });
 
 
 

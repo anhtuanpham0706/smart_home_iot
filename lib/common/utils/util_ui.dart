@@ -11,8 +11,8 @@ class UtilUI {
   static Future<void> setTheme() =>
       SharedPreferences.getInstance().then((prefs) async {
         if (prefs.containsKey('housekey'))
-          Constants.housekey = '${prefs.getInt('housekey')}';
-
+          Constants.housekey = '${prefs.getString('housekey')}';
+        // Constants.hashousekey = false;
         if (prefs.containsKey(Constants.isLogin) &&
             prefs.getBool(Constants.isLogin)!) {
           String? token = await FirebaseMessaging.instance.getToken();
