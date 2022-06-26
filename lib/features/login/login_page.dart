@@ -40,10 +40,11 @@ class _LoginPageState extends BasePageState {
             isActionCancel: true)
         .then((value) {
       if (value != null && value is String) {
-        if (value.isEmpty)
+        if (value.isEmpty) {
           UtilUI.showCustomAlertDialog(
                   context, MultiLanguage.get(LanguageKey.msgPhoneEmpty))
               .then((value) => _forgotPassword());
+        }
       }
     });
   }

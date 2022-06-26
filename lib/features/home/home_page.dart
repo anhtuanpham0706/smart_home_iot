@@ -1,13 +1,12 @@
 
-import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:smart_home_dev/common/model/room.dart';
 import 'package:smart_home_dev/common/model/room_service.dart';
 import 'package:smart_home_dev/common/model/weather.dart';
-
 import 'package:smart_home_dev/common/smarthome_style.dart';
+import 'package:smart_home_dev/common/ui/base_page_state.dart';
 import 'package:smart_home_dev/common/ui/button_custom.dart';
 import 'package:smart_home_dev/common/ui/icon_action.dart';
 import 'package:smart_home_dev/common/ui/text_custom.dart';
@@ -16,12 +15,8 @@ import 'package:smart_home_dev/features/home/home_bloc.dart';
 import 'package:smart_home_dev/features/room_detail/room_detail_page.dart';
 
 
-import '../../common/ui/base_page_state.dart';
-
 class HomePage extends BasePage {
   final Function funOpenDrawer;
-
-
   HomePage(this.funOpenDrawer,
       {Key? key}) : super(_HomePageState(), key:key);
   final roomService = RoomService();
@@ -35,11 +30,10 @@ class _HomePageState extends BasePageState {
   final TextEditingController _ctrRoom = TextEditingController();
   final FocusNode _focusRoom = FocusNode();
   final ScrollController _scrollController = ScrollController();
-  final _roomRef = FirebaseDatabase.instance.ref();
-  //late Position _currentPosition;
+
   Weather? _weather;
   String _dropName = '';
-  String _dropImage = '';
+
   String _type_room = '';
   List<RoomAdd> _room = [
     RoomAdd(name: 'Ngoài trời', image: 'assets/images/theme/house.png'),
@@ -49,38 +43,65 @@ class _HomePageState extends BasePageState {
   ];
 
   @override
-  Widget build(BuildContext context, {Color color = Colors.white}) =>
-      Container(child: Stack(
+  Widget createUI(BuildContext context) => Stack(
         children: [
-          SizedBox(width: 1.sw, height: 1.sh, child:
-          Image.asset('assets/images/theme/ic_livingroom3.png', fit: BoxFit.fill)
-          ),
-          Column(crossAxisAlignment: CrossAxisAlignment.center,
+          SizedBox(
+              width: 1.sw,
+              height: 1.sh,
+              child: Image.asset('assets/images/theme/ic_livingroom3.png',
+                  fit: BoxFit.fill)),
+          Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Container(padding: EdgeInsets.fromLTRB(16.sp, ScreenUtil().statusBarHeight + 27.sp, 16.sp, 10.sp),
+                Container(
+                    padding: EdgeInsets.fromLTRB(16.sp,
+                        ScreenUtil().statusBarHeight + 27.sp, 16.sp, 10.sp),
                     color: SmartHomeStyle.primaryColor,
-                    child: Row(mainAxisAlignment: MainAxisAlignment.end, crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Expanded(child: TextCustom('Home',
-                          size: 20.sp, weight: SmartHomeStyle.mediumWeight)),
-                      Row(children: [
-                        IconAction(_menuAction, 'assets/images/theme/ic_menu.png',
-                            width: 22.sp, height: 22.sp, padding: 3.sp, color: Colors.white)
-                      ])
-                    ])),
-                TextCustom('Thời tiết hiện tại',
-                  size: 20.sp, weight: SmartHomeStyle.mediumWeight,color: Colors.black,),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                              child: TextCustom('Home',
+                                  size: 20.sp,
+                                  weight: SmartHomeStyle.mediumWeight)),
+                          Row(children: [
+                            IconAction(
+                                _menuAction, 'assets/images/theme/ic_menu.png',
+                                width: 22.sp,
+                                height: 22.sp,
+                                padding: 3.sp,
+                                color: Colors.white)
+                          ])
+                        ])),
+                TextCustom(
+                  'Thời tiết hiện tại',
+                  size: 20.sp,
+                  weight: SmartHomeStyle.mediumWeight,
+                  color: Colors.black,
+                ),
                 Container(
                   width: 360.sp,
                   height: 200.sp,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(const Radius.circular(20)),
-                      color: Colors.lightBlue,
                       border: Border.all(
-                        width: 2,
+                        width: 1,
                         color: Colors.black,
-                      )
-                  ),
+                      ),
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                        stops: const [
+                          0.15,
+                          0.85,
+                        ],
+                        colors: [
+                          Colors.blueAccent.withOpacity(0.8),
+                          Colors.lightBlueAccent.withOpacity(0.2)
+                        ],
+                      )),
                   child: Column(
                     children: [
                       const SizedBox(
@@ -88,15 +109,24 @@ class _HomePageState extends BasePageState {
                       ),
                       Row(
                         children: [
-                          SizedBox(width: 25.sp,),
+                          SizedBox(
+                            width: 25.sp,
+                          ),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              TextCustom('Nhiệt độ',
-                                size: 15.sp,color: Colors.black,),
-                              if(_weather!=null)TextCustom('${(_weather!.main.temp - 273.15).toInt()}°',
-                                size: 50.sp,color: Colors.white,),
+                              TextCustom(
+                                'Nhiệt độ',
+                                size: 15.sp,
+                                color: Colors.black,
+                              ),
+                              if (_weather != null)
+                                TextCustom(
+                                  '${(_weather!.main.temp - 273.15).toInt()}°',
+                                  size: 50.sp,
+                                  color: Colors.white,
+                                ),
                             ],
                           ),
                           Spacer(),
@@ -104,23 +134,29 @@ class _HomePageState extends BasePageState {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                TextCustom('Độ ẩm',
-                                  size: 15.sp,color: Colors.black,),
+                                TextCustom(
+                                  'Độ ẩm',
+                                  size: 15.sp,
+                                  color: Colors.black,
+                                ),
                                 Row(
                                   children: [
-                                    if(_weather!=null)TextCustom(
-                                        _weather!.main.humidity.toString(),
-                                        size: 50.sp,
-                                        weight: SmartHomeStyle.mediumWeight),
+                                    if (_weather != null)
+                                      TextCustom(
+                                          _weather!.main.humidity.toString(),
+                                          size: 50.sp,
+                                          weight: SmartHomeStyle.mediumWeight),
                                     TextCustom('%',
-                                        size: 15.sp, weight: SmartHomeStyle.mediumWeight),
+                                        size: 15.sp,
+                                        weight: SmartHomeStyle.mediumWeight),
                                   ],
                                 ),
-
                               ],
                             ),
                           ),
-                          SizedBox(width: 20.sp,)
+                          SizedBox(
+                            width: 20.sp,
+                          )
                         ],
                       ),
                       const SizedBox(
@@ -136,18 +172,32 @@ class _HomePageState extends BasePageState {
                               SizedBox(
                                 height: 30.sp,
                                 width: 30.sp,
-                                child: Image.asset('assets/images/theme/sun_cloud.png'),
+                                child: Image.asset(
+                                    'assets/images/theme/sun_cloud.png'),
                               ),
-                              if(_weather!=null) TextCustom(_weather!.weather[0].description,
-                                  size: 20.sp,
-                                  weight: SmartHomeStyle.mediumWeight),
+                              if (_weather != null)
+                                TextCustom(_weather!.weather[0].description,
+                                    size: 20.sp,
+                                    weight: SmartHomeStyle.mediumWeight),
                               Row(
                                 children: [
-                                  if(_weather!=null)TextCustom('H:${(_weather!.main.tempMax - 273.15).toInt()}°',
-                                    size: 17.sp, weight: SmartHomeStyle.mediumWeight,color: Colors.red,),
-                                  SizedBox(width: 10.sp,),
-                                  if(_weather!=null)TextCustom('L:${(_weather!.main.tempMin - 273.15).toInt()}°',
-                                    size: 17.sp, weight: SmartHomeStyle.mediumWeight,color: Colors.indigo,),
+                                  if (_weather != null)
+                                    TextCustom(
+                                      'H:${(_weather!.main.tempMax - 273.15).toInt()}°',
+                                      size: 17.sp,
+                                      weight: SmartHomeStyle.mediumWeight,
+                                      color: Colors.red,
+                                    ),
+                                  SizedBox(
+                                    width: 10.sp,
+                                  ),
+                                  if (_weather != null)
+                                    TextCustom(
+                                      'L:${(_weather!.main.tempMin - 273.15).toInt()}°',
+                                      size: 17.sp,
+                                      weight: SmartHomeStyle.mediumWeight,
+                                      color: Colors.indigo,
+                                    ),
                                 ],
                               ),
                             ],
@@ -162,13 +212,14 @@ class _HomePageState extends BasePageState {
                                   child: Image.asset(
                                       'assets/images/theme/location.png'),
                                 ),
-                                if(_weather!=null)TextCustom(
-                                  _weather!.name,
-                                  size: 15.sp,
-                                  weight: SmartHomeStyle.mediumWeight,
-                                  color: Colors.white,
-                                  maxLine: 1,
-                                ),
+                                if (_weather != null)
+                                  TextCustom(
+                                    _weather!.name,
+                                    size: 15.sp,
+                                    weight: SmartHomeStyle.mediumWeight,
+                                    color: Colors.white,
+                                    maxLine: 1,
+                                  ),
                                 SizedBox(
                                   width: 20.sp,
                                 )
@@ -182,13 +233,24 @@ class _HomePageState extends BasePageState {
                 ),
                 Row(
                   children: [
-                    SizedBox(width: 15.sp,),
-                    TextCustom('Các phòng:',
-                      size: 20.sp, weight: SmartHomeStyle.mediumWeight,color: Colors.black,),
+                    SizedBox(
+                      width: 15.sp,
+                    ),
+                    TextCustom(
+                      'Các phòng:',
+                      size: 20.sp,
+                      weight: SmartHomeStyle.mediumWeight,
+                      color: Colors.black,
+                    ),
                     Spacer(),
                     IconAction(_open_opision, 'assets/images/theme/more.png',
-                        width: 22.sp, height: 22.sp, padding: 3.sp, color: Colors.black),
-                    SizedBox(width: 15.sp,),
+                        width: 22.sp,
+                        height: 22.sp,
+                        padding: 3.sp,
+                        color: Colors.black),
+                    SizedBox(
+                      width: 15.sp,
+                    ),
                   ],
                 ),
                 _getDeviceList()
@@ -196,12 +258,7 @@ class _HomePageState extends BasePageState {
                 // Expanded(child: page)
               ])
         ],
-      ), color: color);
-
-
-
-  @override
-  Widget createUI(BuildContext context) => const SizedBox();
+      );
 
   @override
   void initBloc() {
@@ -254,12 +311,11 @@ class _HomePageState extends BasePageState {
             child: Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(15)),
-                  color: room.connect == false ? Colors.white54: Colors.blue,
+                  color: Color(0xFFEAECF6).withOpacity(0.9),
                   border: Border.all(
-                    width: 2,
-                    color: Colors.black,
-                  )
-              ),
+                    width: 1,
+                    color: Color(0xFF464646),
+                  )),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -297,27 +353,48 @@ class _HomePageState extends BasePageState {
                         width: 120,
                         child: Image.asset(room.image.toString()),
                       ),
-                      Spacer(),
+                      SizedBox(
+                        width: 80.sp,
+                      ),
                       Column(
                         children: [
-                          SizedBox(height: 55.sp,),
-                          TextCustom('Trạng thái: Chưa Kết nối',size: 12.sp,color: Colors.black,),
+                          SizedBox(
+                            height: 55.sp,
+                          ),
+                          TextCustom(
+                            'Trạng thái: Chưa Kết nối',
+                            size: 12.sp,
+                            color: Colors.black,
+                          ),
                         ],
                       ),
-                      Spacer(),
+                      SizedBox(
+                        width: 30.sp,
+                      ),
                       GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           Constants.roomkey = key.toString();
-                          CoreUtilUI.goToPage(context, RoomDetailPage(room.name,
-                              ),hasBack: true);
+                          CoreUtilUI.goToPage(
+                              context,
+                              RoomDetailPage(
+                                room.name,
+                              ),
+                              hasBack: true);
                         },
                         child: SizedBox(
-                          height: 40,
-                          width: 80,
-                          child: TextCustom('Chi Tiết',size: 15.sp,color: Colors.black,weight: FontWeight.bold,),
+                          height: 20.sp,
+                          width: 80.sp,
+                          child: TextCustom(
+                            'Chi Tiết',
+                            size: 10.sp,
+                            color: Colors.black,
+                            weight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                      SizedBox(width: 10,)
+                      SizedBox(
+                        width: 5.sp,
+                      )
                     ],
                   ),
 
@@ -337,10 +414,10 @@ class _HomePageState extends BasePageState {
           return Container(
             height: 300.0,
             width: double.infinity,
-            margin: EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 20,
-            ),
+            margin: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 20,
+        ),
             child: Column(
                 children: <Widget>[
                   TextCustom('Chọn Thông số phòng',color: Colors.red,size: 18.sp,),

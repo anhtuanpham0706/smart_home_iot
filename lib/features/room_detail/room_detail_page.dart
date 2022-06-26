@@ -116,21 +116,28 @@ class _RoomDetailPageState extends BasePageState {
   Widget createUI(BuildContext context) => const SizedBox();
 
   @override
-  void initUI() {
+  void initUI() {}
 
-  }
   void _back() {
     CoreUtilUI.goBack(context, true);
   }
+
   void _add_device() {
-
-    final device = Device(name: _deviceName,
-        image: _type_device,state: 0,button: 'assets/images/theme/button_on_off.png', connect: false);
+    final device = Device(
+        name: _deviceName,
+        image: _type_device,
+        state: 0,
+        button: 'assets/images/theme/button_on_off.png',
+        connect: false);
     (widget as RoomDetailPage).deviceDao.saveDevice(device);
-
     setState(() {});
-
   }
+
+  void removeDevice(String key) {
+    (widget as RoomDetailPage).deviceDao.deleteDevice(key);
+    setState(() {});
+  }
+
   Widget _getDeviceList() {
     return Expanded(
       child: FirebaseAnimatedList(
@@ -166,9 +173,15 @@ class _RoomDetailPageState extends BasePageState {
                         onTap: (){
                           setState(() {
                             if(device.state == 0){
-                              _deviceRef.child('smart_home/0929317227/room/${Constants.roomkey}/device/$key/state').set(1);
+                              _deviceRef
+                                  .child(
+                                      'smart_home/${Constants.housekey}/room/${Constants.roomkey}/device/$key/state')
+                                  .set(1);
                             } else {
-                              _deviceRef.child('smart_home/0929317227/room/${Constants.roomkey}/device/$key/state').set(0);
+                              _deviceRef
+                                  .child(
+                                      'smart_home/${Constants.housekey}/room/${Constants.roomkey}/device/$key/state')
+                                  .set(0);
                             }
 
                           });
@@ -176,19 +189,49 @@ class _RoomDetailPageState extends BasePageState {
                         child: SizedBox(
                           height: 40,
                           width: 40,
-                          child: Image.asset(device.button.toString(),
-                            color: device.state == 0 ? Colors.black : Colors.indigo,),
+                          child: Image.asset(
+                            device.button.toString(),
+                            color: device.state == 0
+                                ? Colors.black
+                                : Colors.indigo,
+                          ),
                         ),
                       ),
-                      SizedBox(width: 10,)
+                      SizedBox(
+                        width: 10,
+                      )
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(device.name.toString(),style: TextStyle(fontSize: 15,color: Colors.black,fontWeight: FontWeight.bold),),
-                  )
-
-
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          device.name.toString(),
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          _deviceRef
+                              .child(
+                                  'smart_home/${Constants.housekey}/room/${Constants.roomkey}/device/$key')
+                              .remove();
+                        },
+                        child: SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: Image.asset(
+                              'assets/images/theme/ic_remove.png',
+                              color: Colors.black),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
 

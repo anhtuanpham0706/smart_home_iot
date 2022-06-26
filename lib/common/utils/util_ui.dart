@@ -10,8 +10,10 @@ import 'package:smart_home_dev/features/login/login_page.dart';
 class UtilUI {
   static Future<void> setTheme() =>
       SharedPreferences.getInstance().then((prefs) async {
-        if (prefs.containsKey('housekey'))
+        if (prefs.containsKey('housekey')) {
           Constants.housekey = '${prefs.getString('housekey')}';
+          print(Constants.housekey);
+        }
         // Constants.hashousekey = false;
         if (prefs.containsKey(Constants.isLogin) &&
             prefs.getBool(Constants.isLogin)!) {

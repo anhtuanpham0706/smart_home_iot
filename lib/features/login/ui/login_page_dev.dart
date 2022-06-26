@@ -61,27 +61,27 @@ class LoginPageDev extends StatelessWidget {
                         weight: FontWeight.bold),
                     padding: 10.sp,
                     elevation: 0,
-                    color: const Color(0xFFCB7120),
+                    color: SmartHomeStyle.primaryColor,
                   )),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 ButtonCustomTransparent(
                     forgotPassword,
                     TextCustom('Quên mật khẩu',
                         size: 14.sp,
-                        color: const Color(0xFFCB7120),
+                        color: SmartHomeStyle.primaryColor,
                         weight: FontWeight.w500),
                     padding: EdgeInsets.all(5.sp)),
                 ButtonCustomTransparent(
                     signUp,
                     TextCustom('Đăng ký',
                         size: 14.sp,
-                        color: const Color(0xFFCB7120),
+                        color: SmartHomeStyle.primaryColor,
                         weight: FontWeight.w500),
                     padding: EdgeInsets.all(5.sp)),
                 TextButton(
                     onPressed: () => nextPage(),
                     child: TextCustom('Bỏ qua',
-                        size: 14.sp, color: const Color(0xFFCB7120)))
+                        size: 14.sp, color: SmartHomeStyle.primaryColor))
               ]),
               // LoginWithOthers(signInWithFaceBook, signInWithGoogle, signInWithAppleID,
               //     title: TextCustom(MultiLanguage.get('lbl_or_food'), size: 14.sp,

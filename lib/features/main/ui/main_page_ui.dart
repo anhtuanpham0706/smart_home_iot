@@ -18,10 +18,16 @@ class MainPageUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(key: scaffoldKey, drawer:
-    Drawer(child: DrawerContent(bloc, changePage)),
-        body: BlocBuilder(bloc: bloc, builder: (context, state) => getPage(),
-            buildWhen: (oldState, newState) => newState is ChangePageMainState));
+    return Scaffold(
+        key: scaffoldKey,
+        drawer: Drawer(
+          child: DrawerContent(bloc, changePage),
+        ),
+        body: BlocBuilder(
+            bloc: bloc,
+            builder: (context, state) => getPage(),
+            buildWhen: (oldState, newState) =>
+                newState is ChangePageMainState));
 
   }
 }

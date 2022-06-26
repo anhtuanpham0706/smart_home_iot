@@ -26,7 +26,8 @@ class MainPageState extends BasePageState with WidgetsBindingObserver {
   FlutterLocalNotificationsPlugin? _localNotify;
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
-  DatabaseReference ref = FirebaseDatabase.instance.ref("Phong/Gas");
+  DatabaseReference ref =
+      FirebaseDatabase.instance.ref("/smart_home/${Constants.housekey}/Gas");
 
   @override
   void dispose() {

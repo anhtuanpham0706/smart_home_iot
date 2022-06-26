@@ -102,8 +102,9 @@ class _ShopPageState extends BasePageState {
   }
   void _saveShop() => SharedPreferences.getInstance().then((prefs) {
     prefs.setString('housekey', _ctrEmail.text);
-    UtilUI.goToPage(context, LoginPage(),hasBack: true);
-    // _showButtonMenu();
+        Constants.housekey = _ctrEmail.text;
+        UtilUI.goToPage(context, LoginPage(), hasBack: true);
+        // _showButtonMenu();
   });
 
 
