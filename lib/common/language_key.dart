@@ -86,7 +86,7 @@ class LanguageKey {
   static const String lblTheme = 'lbl_theme';
   static const String lblLanguage = 'lbl_language';
   static const String lblLocation = 'lbl_location';
-  static const String lblChangePass = 'lbl_change_pass';
+  static const String lblKeyHome = 'lbl_change_key_home';
   static const String lblShop = 'lbl_shop';
   static const String lblGetMoney = 'lbl_get_money';
   static const String lblBirthdate = 'lbl_birthdate';

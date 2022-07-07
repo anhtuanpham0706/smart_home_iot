@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:smart_home_dev/common/language_key.dart';
 import 'package:smart_home_dev/common/model/item_list_model.dart';
+import 'package:smart_home_dev/common/smarthome_style.dart';
 import 'package:smart_home_dev/features/signup/sign_up_bloc.dart';
 import 'package:smart_home_dev/features/signup/ui/sign_up_page_dev.dart';
 import 'package:smart_home_dev/features/signup/ui/sign_up_page_ui.dart';
@@ -86,7 +87,8 @@ class _SignUpPageState extends BasePageState {
       print("Created New Account");
       CoreUtilUI.showCustomAlertDialog(
               context, MultiLanguage.get(LanguageKey.msgSignUpSuccess),
-              title: MultiLanguage.get(LanguageKey.ttlNotify))
+              title: MultiLanguage.get(LanguageKey.ttlNotify),
+              primaryColor: SmartHomeStyle.primaryColor)
           .then((value) => SharedPreferences.getInstance().then((prefs) {
                 back();
               }));

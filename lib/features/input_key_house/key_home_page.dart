@@ -21,17 +21,17 @@ class ShopPage extends BasePage {
 class _ShopPageState extends BasePageState {
   final TextEditingController _ctrEmail = TextEditingController();
   final FocusNode _focusEmail = FocusNode();
-
+  bool _changeSetting = false;
 
   Map<String, bool> data = {};
 
-
   @override
-  Widget build(BuildContext context, {Color color = Colors.white}) => super.build(context, color: const Color(0xFFF5F5F5));
+  Widget build(BuildContext context, {Color color = Colors.white}) =>
+      super.build(context, color: const Color(0xFFF5F5F5));
 
   @override
   Widget createUI(BuildContext context) => Stack(children: [
-    SizedBox(width: 1.sw, height: 0.6.sh, child:
+        SizedBox(width: 1.sw, height: 0.6.sh, child:
     Image.asset('assets/images/theme/6230154.png', fit: BoxFit.fill)
     ),
     ListView(padding: EdgeInsets.zero, children: [
@@ -46,13 +46,29 @@ class _ShopPageState extends BasePageState {
           ),
         child: Column(
           children: [
-            SizedBox(height: 40.sp),
-            ThemeTextField(_ctrEmail, _focusEmail, Icons.house, 'Mã định danh nhà', type: TextInputType.phone),
-            Container(width: 1.sw, padding: EdgeInsets.fromLTRB(24.sp, 24.sp, 24.sp, 24.sp),
-                child: ButtonCustom(_submit, TextCustom('Kiểm Tra',
-                    size: 18.sp, color: Colors.white, fontFamily: 'Segoe UI',
-                    weight: FontWeight.bold), padding: 10.sp, elevation: 0,color: SmartHomeStyle.primaryColor,)),
-          ],
+                TextCustom(
+                  MultiLanguage.get('lbl_input_key_home'),
+                  size: 17.sp,
+                  color: Colors.black,
+                ),
+                SizedBox(height: 40.sp),
+                ThemeTextField(_ctrEmail, _focusEmail, Icons.house, 'Key Home',
+                    type: TextInputType.phone),
+                Container(
+                    width: 1.sw,
+                    padding: EdgeInsets.fromLTRB(24.sp, 24.sp, 24.sp, 24.sp),
+                    child: ButtonCustom(
+                      _submit,
+                      TextCustom(MultiLanguage.get('btn_check'),
+                          size: 18.sp,
+                          color: Colors.white,
+                          fontFamily: 'Segoe UI',
+                          weight: FontWeight.bold),
+                      padding: 10.sp,
+                      elevation: 0,
+                      color: SmartHomeStyle.primaryColor,
+                    )),
+              ],
         ),
       )
     ])
@@ -60,6 +76,8 @@ class _ShopPageState extends BasePageState {
 
   @override
   void initBloc() {
+    final page = widget as ShopPage;
+    _changeSetting = page.changeSetting;
     bloc = InputKeyHomeBloc();
     bloc?.stream.listen((state) {
       if (state is GetKeyHomeState) {
@@ -81,14 +99,6 @@ class _ShopPageState extends BasePageState {
         // _list.addAll(ShopsModel().fromJson(json).list);
         // bloc!.add(ReloadListEvent());
       }
-      /*if (_list.isEmpty) {
-        _addShop(ShopModel(id: 16, name: 'shop 16', image: '/uploads/202110/41/090303-dior.png'));
-        _addShop(ShopModel(id: 66, name: 'shop 66', image: ''));
-        _addShop(ShopModel(id: 166, name: 'shop 166', image: '/uploads/202110/41/090303-dior.png'));
-        _addShop(ShopModel(id: 666, name: 'shop 666 dasd asdas asdasd asdasd asdasd asd', image: ''));
-        _addShop(ShopModel(id: 1666, name: 'shop 1666', image: '/uploads/202110/41/090303-dior.png'));
-        _addShop(ShopModel(id: 6666, name: 'shop 6666', image: ''));
-      }*/
     });
   }
 
@@ -97,13 +107,20 @@ class _ShopPageState extends BasePageState {
       print('okey nha');
       _saveShop();
     } else {
-      print('Mã không tồn tại');
+      UtilUI.showCustomAlertDialog(
+              context, MultiLanguage.get('lbl_key_home_not_exist'),
+              isActionCancel: false)
+          .then((value) {});
     }
   }
   void _saveShop() => SharedPreferences.getInstance().then((prefs) {
     prefs.setString('housekey', _ctrEmail.text);
         Constants.housekey = _ctrEmail.text;
-        UtilUI.goToPage(context, LoginPage(), hasBack: true);
+        if (_changeSetting == false) {
+          UtilUI.goToPage(context, LoginPage(), hasBack: true);
+        } else {
+          CoreUtilUI.goBack(context, false);
+        }
         // _showButtonMenu();
   });
 

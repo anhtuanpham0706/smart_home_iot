@@ -40,11 +40,16 @@ class _LoginPageState extends BasePageState {
             isActionCancel: true)
         .then((value) {
       if (value != null && value is String) {
-        if (value.isEmpty) {
-          UtilUI.showCustomAlertDialog(
-                  context, MultiLanguage.get(LanguageKey.msgPhoneEmpty))
-              .then((value) => _forgotPassword());
-        }
+        FirebaseAuth.instance
+            .sendPasswordResetEmail(email: value.toString())
+            .then((value) {
+          print('resset success');
+        });
+        // if (value.isEmpty) {
+        //   UtilUI.showCustomAlertDialog(
+        //           context, MultiLanguage.get(LanguageKey.msgPhoneEmpty))
+        //       .then((value) => _forgotPassword());
+        // }
       }
     });
   }
@@ -72,12 +77,20 @@ class _LoginPageState extends BasePageState {
         .signInWithEmailAndPassword(
             email: _ctrEmail.text, password: _ctrPass.text)
         .then((value) {
-          print(value.toString());
-          UtilUI.saveInfo('state.response.data',
-              saveAccount: true, context: context, nextPage: MainPage());
-        })
-        .catchError((error) {})
-        .onError((error, stackTrace) {});
+      print(value.toString());
+      UtilUI.saveInfo('state.response.data',
+          saveAccount: true, context: context, nextPage: MainPage());
+    }).catchError((error) {
+      UtilUI.showCustomAlertDialog(
+              context, MultiLanguage.get('lbl_login_failed'),
+              isActionCancel: false)
+          .then((value) {});
+    }).onError((error, stackTrace) {
+      UtilUI.showCustomAlertDialog(
+              context, MultiLanguage.get('lbl_login_failed'),
+              isActionCancel: false)
+          .then((value) {});
+    });
   }
 
   @override

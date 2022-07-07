@@ -1,4 +1,5 @@
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
@@ -11,6 +12,7 @@ import 'package:smart_home_dev/common/ui/button_custom.dart';
 import 'package:smart_home_dev/common/ui/icon_action.dart';
 import 'package:smart_home_dev/common/ui/text_custom.dart';
 import 'package:smart_home_dev/common/ui/theme_textfield.dart';
+import 'package:smart_home_dev/common/utils/util_ui.dart';
 import 'package:smart_home_dev/features/home/home_bloc.dart';
 import 'package:smart_home_dev/features/room_detail/room_detail_page.dart';
 
@@ -30,6 +32,7 @@ class _HomePageState extends BasePageState {
   final TextEditingController _ctrRoom = TextEditingController();
   final FocusNode _focusRoom = FocusNode();
   final ScrollController _scrollController = ScrollController();
+  final _roomRef = FirebaseDatabase.instance.ref();
 
   Weather? _weather;
   String _dropName = '';
@@ -63,7 +66,7 @@ class _HomePageState extends BasePageState {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
-                              child: TextCustom('Home',
+                              child: TextCustom(MultiLanguage.get('ttl_home'),
                                   size: 20.sp,
                                   weight: SmartHomeStyle.mediumWeight)),
                           Row(children: [
@@ -75,11 +78,14 @@ class _HomePageState extends BasePageState {
                                 color: Colors.white)
                           ])
                         ])),
-                TextCustom(
-                  'Thời tiết hiện tại',
-                  size: 20.sp,
-                  weight: SmartHomeStyle.mediumWeight,
-                  color: Colors.black,
+                Padding(
+                  padding: EdgeInsets.all(8.sp),
+                  child: TextCustom(
+                    MultiLanguage.get('ttl_weather'),
+                    size: 20.sp,
+                    weight: SmartHomeStyle.mediumWeight,
+                    color: Colors.black,
+                  ),
                 ),
                 Container(
                   width: 360.sp,
@@ -98,8 +104,8 @@ class _HomePageState extends BasePageState {
                           0.85,
                         ],
                         colors: [
-                          Colors.blueAccent.withOpacity(0.8),
-                          Colors.lightBlueAccent.withOpacity(0.2)
+                          Colors.blueAccent.withOpacity(0.7),
+                          Colors.lightBlueAccent.withOpacity(0.1)
                         ],
                       )),
                   child: Column(
@@ -117,7 +123,7 @@ class _HomePageState extends BasePageState {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               TextCustom(
-                                'Nhiệt độ',
+                                MultiLanguage.get('ttl_temp'),
                                 size: 15.sp,
                                 color: Colors.black,
                               ),
@@ -135,7 +141,7 @@ class _HomePageState extends BasePageState {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 TextCustom(
-                                  'Độ ẩm',
+                                  MultiLanguage.get('ttl_hum'),
                                   size: 15.sp,
                                   color: Colors.black,
                                 ),
@@ -226,6 +232,9 @@ class _HomePageState extends BasePageState {
                               ],
                             ),
                           ),
+                          SizedBox(
+                            width: 5.sp,
+                          )
                         ],
                       )
                     ],
@@ -237,12 +246,18 @@ class _HomePageState extends BasePageState {
                       width: 15.sp,
                     ),
                     TextCustom(
-                      'Các phòng:',
+                      MultiLanguage.get('ttl_room'),
                       size: 20.sp,
                       weight: SmartHomeStyle.mediumWeight,
                       color: Colors.black,
                     ),
                     Spacer(),
+                    TextCustom(
+                      MultiLanguage.get('btn_add_room'),
+                      size: 20.sp,
+                      weight: SmartHomeStyle.mediumWeight,
+                      color: Colors.black,
+                    ),
                     IconAction(_open_opision, 'assets/images/theme/more.png',
                         width: 22.sp,
                         height: 22.sp,
@@ -324,29 +339,66 @@ class _HomePageState extends BasePageState {
                     child: Row(
                       children: [
                         Text(room.name.toString(),
-                          style: TextStyle(fontSize: 15,color: Colors.black,fontWeight: FontWeight.bold),),
-                        const SizedBox(width: 40,),
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          width: 40,
+                        ),
                         Column(
                           children: [
-                            const Text('Nhiệt độ: ',
-                              style: TextStyle(fontSize: 15,color: Colors.deepOrangeAccent,fontWeight: FontWeight.bold),),
-                            Text('${room.temp.toInt()}*C',
-                              style: TextStyle(fontSize: 15,color: Colors.black,fontWeight: FontWeight.bold),),
+                            Text(
+                              MultiLanguage.get('ttl_temp'),
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.deepOrangeAccent,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            room.connect
+                                ? Text(
+                                    '${room.temp.toInt()}*C',
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                : SizedBox(
+                                    height: 10.sp,
+                                  ),
                           ],
                         ),
-                        const SizedBox(width: 40,),
+                        SizedBox(
+                          width: 40.sp,
+                        ),
                         Column(
                           children: [
-                            Text('Độ ẩm: ',
-                              style: TextStyle(fontSize: 15,color: Colors.deepOrangeAccent,fontWeight: FontWeight.bold),),
-                            Text('${room.hum.toInt()}%',
-                              style: TextStyle(fontSize: 15,color: Colors.black,fontWeight: FontWeight.bold),),
+                            Text(
+                              MultiLanguage.get('ttl_hum'),
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.deepOrangeAccent,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            room.connect
+                                ? Text(
+                                    '${room.hum.toInt()}%',
+                                    style: const TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                : SizedBox(
+                                    height: 10.sp,
+                                  ),
                           ],
                         ),
                       ],
                     ),
                   ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
                         height: 100,
@@ -354,50 +406,76 @@ class _HomePageState extends BasePageState {
                         child: Image.asset(room.image.toString()),
                       ),
                       SizedBox(
-                        width: 80.sp,
+                        width: 5.sp,
                       ),
                       Column(
                         children: [
                           SizedBox(
-                            height: 55.sp,
+                            height: 65.sp,
                           ),
                           TextCustom(
-                            'Trạng thái: Chưa Kết nối',
+                            '${MultiLanguage.get('ttl_state')} ${room.connect ? MultiLanguage.get('ttl_connected') : MultiLanguage.get('ttl_not_connected')}',
                             size: 12.sp,
                             color: Colors.black,
                           ),
                         ],
                       ),
                       SizedBox(
-                        width: 30.sp,
+                        width: 40.sp,
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          Constants.roomkey = key.toString();
-                          CoreUtilUI.goToPage(
-                              context,
-                              RoomDetailPage(
-                                room.name,
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Constants.roomkey = key.toString();
+                              CoreUtilUI.goToPage(
+                                  context,
+                                  RoomDetailPage(
+                                    room.name,
+                                  ),
+                                  hasBack: true);
+                            },
+                            child: SizedBox(
+                              child: TextCustom(
+                                MultiLanguage.get('ttl_detail'),
+                                size: 15.sp,
+                                color: Colors.black,
+                                weight: FontWeight.bold,
                               ),
-                              hasBack: true);
-                        },
-                        child: SizedBox(
-                          height: 20.sp,
-                          width: 80.sp,
-                          child: TextCustom(
-                            'Chi Tiết',
-                            size: 10.sp,
-                            color: Colors.black,
-                            weight: FontWeight.bold,
+                            ),
                           ),
-                        ),
+                          SizedBox(
+                            height: 40.sp,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              UtilUI.showCustomAlertDialog(context,
+                                      MultiLanguage.get('lbl_delete_room'),
+                                      isActionCancel: true)
+                                  .then((value) {
+                                if (value == true) {
+                                  _roomRef
+                                      .child(
+                                          'smart_home/${Constants.housekey}/room/$key')
+                                      .remove();
+                                }
+                              });
+                            },
+                            child: SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: Image.asset('assets/images/theme/bin.png',
+                                  color: Colors.black),
+                            ),
+                          )
+                        ],
                       ),
                       SizedBox(
                         width: 5.sp,
                       )
                     ],
                   ),
-
 
                 ],
               ),
@@ -420,19 +498,25 @@ class _HomePageState extends BasePageState {
         ),
             child: Column(
                 children: <Widget>[
-                  TextCustom('Chọn Thông số phòng',color: Colors.red,size: 18.sp,),
-                  ThemeTextField(_ctrRoom, _focusRoom, Icons.phone_android_outlined, 'Name Room',type: TextInputType.name),
-                  SizedBox(
-                    width: 160,
-                    child: DropdownButton(
-                      hint: _dropName == null
-                          ? Text('Chọn kiểu phòng')
-                          : Text(
-                        _dropName,
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      isExpanded: true,
-                      iconSize: 30.0,
+          TextCustom(
+            MultiLanguage.get('ttl_info_room'),
+            color: Colors.red,
+            size: 18.sp,
+          ),
+          ThemeTextField(_ctrRoom, _focusRoom, Icons.phone_android_outlined,
+              MultiLanguage.get('ttl_name_room'),
+              type: TextInputType.name),
+          SizedBox(
+            width: 160,
+            child: DropdownButton(
+              hint: _dropName == null
+                  ? Text(MultiLanguage.get('ttl_type_room'))
+                  : Text(
+                      _dropName,
+                      style: TextStyle(color: Colors.black),
+                    ),
+              isExpanded: true,
+              iconSize: 30.0,
                       style: TextStyle(color: Colors.black),
                       items: _room.map(
                             (RoomAdd list) {
@@ -442,18 +526,23 @@ class _HomePageState extends BasePageState {
                           );
                         },
                       ).toList(),
-                      onChanged: (val) {
-                        setState(
-                              () {
-                            _dropName = val.toString();
-                            _change_image(_dropName);
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                  ButtonCustom(_addRoom,TextCustom('Thêm Phòng',color: Colors.blue,)),
-                ]),
+              onChanged: (val) {
+                setState(
+                  () {
+                    _dropName = val.toString();
+                    _change_image(_dropName);
+                  },
+                );
+              },
+            ),
+          ),
+          ButtonCustom(
+              _addRoom,
+              TextCustom(
+                MultiLanguage.get('btn_add_room'),
+                color: Colors.blue,
+              )),
+        ]),
 
           );
         });
@@ -465,12 +554,24 @@ class _HomePageState extends BasePageState {
     );
   }
   void _addRoom() {
-    final room = Room(name: _ctrRoom.text,
-        image: _type_room,temp: 28.1,hum: 85.1,connect: false);
-    (widget as HomePage).roomService.saveRoom(room);
-    setState(() {});
-    Navigator.pop(context);
+    final room = Room(
+        name: _ctrRoom.text,
+        image: _type_room,
+        temp: 28.1,
+        hum: 85.1,
+        connect: false);
+    if (_type_room == '') {
+      UtilUI.showCustomAlertDialog(
+              context, MultiLanguage.get('lbl_choose_type_room'),
+              isActionCancel: false)
+          .then((value) {});
+    } else {
+      (widget as HomePage).roomService.saveRoom(room);
+      setState(() {});
+      Navigator.pop(context);
+    }
   }
+
   void _change_image(String typeroom){
     int index = 0;
     for (index = 0; index < _room.length; index++) {

@@ -4,6 +4,7 @@
 
 import 'package:core_advn/common/ui/button_custom_transparent.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_home_dev/common/smarthome_style.dart';
 import 'package:smart_home_dev/common/ui/button_custom.dart';
 import 'package:smart_home_dev/common/ui/header.dart';
 import 'package:smart_home_dev/common/ui/text_custom.dart';
@@ -80,9 +81,15 @@ class VerifyCodePageUI extends StatelessWidget {
           ButtonCustomTransparent(resend, TextCustom('Gửi lại',
               size: 14.sp, color: Colors.red), padding: EdgeInsets.all(4.sp))
               : const SizedBox()),
-      Container(width: 1.sw, padding: EdgeInsets.all(20.sp), child: ButtonCustom(confirm,
-          TextCustom('Xác nhận',
-              size: 16.sp, weight: FontWeight.w500), elevation: 0))
+      Container(
+          width: 1.sw,
+          padding: EdgeInsets.all(20.sp),
+          child: ButtonCustom(
+            confirm,
+            TextCustom('Xác nhận', size: 16.sp, weight: FontWeight.w500),
+            elevation: 0,
+            color: SmartHomeStyle.primaryColor,
+          ))
     ]);
 
     }

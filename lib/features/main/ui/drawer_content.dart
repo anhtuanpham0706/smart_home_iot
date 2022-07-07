@@ -26,20 +26,35 @@ class DrawerContent extends StatelessWidget {
             // ButtonCustomTransparent(() => UtilUI.viewAvatar(context),
             //     AvatarCircle(size: 75.sp), sizeRadius: 40.sp, borderWidth: 0),
             SizedBox(width: 16.sp),
-            Expanded(child: Constants.valueLogin ? BlocBuilder(bloc: bloc, builder: (context, _) =>
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children:[
-                  TextCustom('Anh Tuấn', color: Colors.black, size: 18.sp, weight: FontWeight.w500),
-                  SizedBox(height: 4.sp),
-                  TextCustom('0929317227', color: const Color(0xFF897B7B), size: 14.sp)
-                ]), buildWhen: (oldState, newState) => newState is SetInfoMainState) :
-            Column(children: [
-              TextCustom('', color: Colors.black, size: 16.sp),
-              SizedBox(height: 10.sp),
-              ButtonCustomTransparent(() => UtilUI.goToPage(context, LoginPage(), clearAllPage: true),
-                  TextCustom('Đăng nhập', size: 14.sp), sizeRadius: 20.sp,
-                  color: SmartHomeStyle.primaryColor, padding: EdgeInsets.fromLTRB(10.sp, 5.sp, 10.sp, 5.sp))
-            ])
-            )])),
+            Expanded(child: Constants.valueLogin
+                    ? BlocBuilder(
+                        bloc: bloc,
+                        builder: (context, _) => Column(
+                              children: [
+                                Image.asset(
+                                  'assets/images/ic_launcher.png',
+                                  width: 90.sp,
+                                  height: 90.sp,
+                                ),
+                                TextCustom('SPKT SHOME',
+                                    color: Colors.black, size: 16.sp),
+                              ],
+                            ),
+                        buildWhen: (oldState, newState) =>
+                            newState is SetInfoMainState)
+                    : Column(children: [
+                        TextCustom('', color: Colors.black, size: 16.sp),
+                        SizedBox(height: 10.sp),
+                        ButtonCustomTransparent(
+                            () => UtilUI.goToPage(context, LoginPage(),
+                                clearAllPage: true),
+                            TextCustom(MultiLanguage.get('btn_login'),
+                                size: 14.sp),
+                            sizeRadius: 20.sp,
+                            color: SmartHomeStyle.primaryColor,
+                            padding:
+                                EdgeInsets.fromLTRB(10.sp, 5.sp, 10.sp, 5.sp))
+                      ]))])),
           Expanded(child: _Body(bloc, changePage))
         ]);
     }
@@ -55,25 +70,25 @@ class _Body extends StatelessWidget {
     int index = MainPageUI.index;
     if (state is ChangePageMainState) index = state.index;
     return ListView(padding: EdgeInsets.zero, children: [
-      DrawerItem(() => changePage(0), 'assets/images/theme/ic_home.png',
-          'Home', index == 0),
-      // DrawerItem(() => changePage(4), 'assets/images/ic_news.png',
-      //     MultiLanguage.get(LanguageKey.ttlNews), index == 4),
-      // Constants.valueLogin ? DrawerItem(() => changePage(10), 'assets/images/ic_share_app.png',
-      //     MultiLanguage.get(LanguageKey.ttlShareApp), index == 10):const SizedBox(),
-       DrawerItem(() => changePage(1), 'assets/images/theme/ic_profile.png',
-          MultiLanguage.get(LanguageKey.ttlProfile), index == 1),
-      // // DrawerItem(() => changePage(11), 'assets/images/theme3/ic_theme3_promotion.png',
-      // //     MultiLanguage.get(LanguageKey.lblPromotion), index == 11),
-      // Constants.valueLogin ? DrawerItem(() => changePage(2), 'assets/images/ic_history.png',
-      //     MultiLanguage.get(LanguageKey.ttlHistory), index == 2):const SizedBox(),
-      // Constants.valueLogin ? DrawerItem(() => changePage(1), 'assets/images/ic_item_cart.png',
-      //     MultiLanguage.get(LanguageKey.ttlCart), index == 1):const SizedBox(),
-      // Constants.valueLogin ? DrawerItem(() => changePage(8), 'assets/images/ic_saved.png',
-      //     MultiLanguage.get(LanguageKey.ttlFavorite), index == 8):const SizedBox(),
-      // // Constants.valueLogin ? DrawerItem(() => changePage(5), 'assets/images/ic_chat.png',
-      // //     MultiLanguage.get(LanguageKey.lblChatUs), index == 5):const SizedBox(),
-      // Constants.valueLogin ? DrawerItem(() => changePage(9), 'assets/images/ic_chat.png',
+          DrawerItem(() => changePage(0), 'assets/images/theme/ic_home.png',
+              MultiLanguage.get('ttl_home'), index == 0),
+          // DrawerItem(() => changePage(4), 'assets/images/ic_news.png',
+          //     MultiLanguage.get(LanguageKey.ttlNews), index == 4),
+          // Constants.valueLogin ? DrawerItem(() => changePage(10), 'assets/images/ic_share_app.png',
+          //     MultiLanguage.get(LanguageKey.ttlShareApp), index == 10):const SizedBox(),
+          DrawerItem(() => changePage(1), 'assets/images/theme/ic_profile.png',
+              MultiLanguage.get('lbl_setting'), index == 1),
+          // // DrawerItem(() => changePage(11), 'assets/images/theme3/ic_theme3_promotion.png',
+          // //     MultiLanguage.get(LanguageKey.lblPromotion), index == 11),
+          // Constants.valueLogin ? DrawerItem(() => changePage(2), 'assets/images/ic_history.png',
+          //     MultiLanguage.get(LanguageKey.ttlHistory), index == 2):const SizedBox(),
+          // Constants.valueLogin ? DrawerItem(() => changePage(1), 'assets/images/ic_item_cart.png',
+          //     MultiLanguage.get(LanguageKey.ttlCart), index == 1):const SizedBox(),
+          // Constants.valueLogin ? DrawerItem(() => changePage(8), 'assets/images/ic_saved.png',
+          //     MultiLanguage.get(LanguageKey.ttlFavorite), index == 8):const SizedBox(),
+          // // Constants.valueLogin ? DrawerItem(() => changePage(5), 'assets/images/ic_chat.png',
+          // //     MultiLanguage.get(LanguageKey.lblChatUs), index == 5):const SizedBox(),
+          // Constants.valueLogin ? DrawerItem(() => changePage(9), 'assets/images/ic_chat.png',
       //     MultiLanguage.get(LanguageKey.ttlContact), index == 9):const SizedBox(),
       // DrawerItem(() => changePage(6), 'assets/images/ic_shield.png',
       //     MultiLanguage.get(LanguageKey.lblCommonPolicy), index == 6),

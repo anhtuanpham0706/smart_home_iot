@@ -1,7 +1,8 @@
 
-
+import 'package:core_advn/common/multi_language.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_home_dev/common/language_key.dart';
 import 'package:smart_home_dev/common/ui/text_custom.dart';
 
 class ThemeLayer extends StatelessWidget {
@@ -11,19 +12,29 @@ class ThemeLayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Column(mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min, children: [
-        Image.asset('assets/images/theme/splash_0$index.png', width: 0.6.sw, fit: BoxFit.fitWidth),
-        SizedBox(height: 60.sp),
-        TextCustom('Smart Home', size: 24.sp,
-            color: const Color(0xFF4D3E09), fontFamily: 'Segoe UI', weight: FontWeight.bold),
-        Padding(padding: EdgeInsets.fromLTRB(36.sp, 22.sp, 36.sp, 26.sp), child:
-        TextCustom('Dễ dàng điều khiển các thiết bị trong nhà !!', size: 18.sp,
-            color: const Color(0xFF414141), fontFamily: 'Segoe UI')),
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          _Point(index == 1),
-          _Point(index == 2),
-          _Point(index == 3)
-        ])
-      ]);
+            Image.asset('assets/images/splash_0$index.png',
+                width: 0.6.sw, fit: BoxFit.fitWidth),
+            SizedBox(height: 60.sp),
+            TextCustom('SPKT SHOME',
+                size: 24.sp,
+                color: const Color(0xFF4D3E09),
+                fontFamily: 'Segoe UI',
+                weight: FontWeight.bold),
+            Padding(
+                padding: EdgeInsets.fromLTRB(36.sp, 22.sp, 36.sp, 26.sp),
+                child: TextCustom(
+                  MultiLanguage.get('lbl_splash$index'),
+                  size: 18.sp,
+                  color: const Color(0xFF414141),
+                  fontFamily: 'Segoe UI',
+                  align: TextAlign.center,
+                )),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              _Point(index == 1),
+              _Point(index == 2),
+              _Point(index == 3)
+            ])
+          ]);
 }
 
 class _Point extends StatelessWidget {

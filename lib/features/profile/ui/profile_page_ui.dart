@@ -11,16 +11,18 @@ import '../../../common/ui/base_page_state.dart';
 import '../../../common/ui/text_custom.dart';
 
 class ProfilePageUI extends StatelessWidget {
-  final Function funOpenDrawer, menuClick, changePassword,
-     showLanguage, logout;
+  final Function funOpenDrawer, menuClick, changeHomeKey, showLanguage, logout;
 
   final MainBloc bloc;
+
   const ProfilePageUI(this.bloc, this.funOpenDrawer, this.menuClick,
-       this.changePassword, this.showLanguage, this.logout, {Key? key}):super(key:key);
+      this.changeHomeKey, this.showLanguage, this.logout,
+      {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(children: [
-        HeaderCustom(MultiLanguage.get(LanguageKey.ttlProfile),
+    HeaderCustom(MultiLanguage.get('lbl_setting'),
             hasBack: false, hasMenu: true, funMenu: menuClick),
         Expanded(
             child: BlocBuilder(
@@ -37,8 +39,8 @@ class ProfilePageUI extends StatelessWidget {
                               size: 14.sp)),
                       ProfileItem('assets/images/theme/ic_language.png',
                           LanguageKey.lblLanguage, showLanguage),
-                      ProfileItem('assets/images/theme/ic_lock.png',
-                          LanguageKey.lblChangePass, changePassword),
+                      ProfileItem('assets/images/theme/ic_home.png',
+                          LanguageKey.lblKeyHome, changeHomeKey),
                       ProfileItem('assets/images/theme/ic_logout.png',
                           LanguageKey.lblLogout, logout,
                           color: SmartHomeStyle.colorA5, hasLine: false)

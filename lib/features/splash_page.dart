@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:core_advn/common/multi_language.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -125,8 +126,10 @@ class _SplashPageState extends State<SplashPage> {
               ))),
           Padding(padding: EdgeInsets.only(top: 40.sp, bottom: 40.sp), child:
           TextButton(onPressed: _skip,
-              child: TextCustom('Skip', size: 14.sp,
-                  color: const Color(0xFF414141), fontFamily: 'Segoe UI')))
+              child: TextCustom(MultiLanguage.get('btn_skip'),
+                      size: 14.sp,
+                      color: const Color(0xFF414141),
+                      fontFamily: 'Segoe UI')))
         ]));
   }
 

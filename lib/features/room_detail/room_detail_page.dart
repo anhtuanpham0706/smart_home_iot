@@ -2,9 +2,11 @@
 
 
 
+import 'package:core_advn/common/ui/base_page.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_home_dev/common/language_key.dart';
 import 'package:smart_home_dev/common/model/device.dart';
 import 'package:smart_home_dev/common/model/device_service.dart';
 import 'package:smart_home_dev/common/model/room_service.dart';
@@ -12,6 +14,7 @@ import 'package:smart_home_dev/common/smarthome_style.dart';
 import 'package:smart_home_dev/common/ui/button_custom.dart';
 import 'package:smart_home_dev/common/ui/icon_action.dart';
 import 'package:smart_home_dev/common/ui/theme_textfield.dart';
+import 'package:smart_home_dev/common/utils/util_ui.dart';
 
 import '../../common/ui/base_page_state.dart';
 import '../../common/ui/text_custom.dart';
@@ -92,11 +95,29 @@ class _RoomDetailPageState extends BasePageState {
                                         size: 20.sp,
                                         weight: SmartHomeStyle.mediumWeight)),
                               ])),
-                      IconAction(_open_opision, 'assets/images/theme/more.png',
-                          width: 22.sp,
-                          height: 22.sp,
-                          padding: 3.sp,
-                          color: Colors.black),
+                      SizedBox(
+                        height: 5.sp,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextCustom(
+                            MultiLanguage.get('btn_add_device'),
+                            color: Colors.white,
+                            size: 15.sp,
+                            weight: FontWeight.bold,
+                          ),
+                          IconAction(
+                              _open_opision, 'assets/images/theme/more.png',
+                              width: 22.sp,
+                              height: 22.sp,
+                              padding: 3.sp,
+                              color: Colors.white),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5.sp,
+                      ),
                       _getDeviceList(),
 
                       // Expanded(child: page)
@@ -129,8 +150,16 @@ class _RoomDetailPageState extends BasePageState {
         state: 0,
         button: 'assets/images/theme/button_on_off.png',
         connect: false);
-    (widget as RoomDetailPage).deviceDao.saveDevice(device);
-    setState(() {});
+    if (_deviceName == '') {
+      UtilUI.showCustomAlertDialog(
+              context, MultiLanguage.get('lbl_choose_type_device'),
+              isActionCancel: false)
+          .then((value) {});
+    } else {
+      (widget as RoomDetailPage).deviceDao.saveDevice(device);
+      setState(() {});
+      Navigator.pop(context);
+    }
   }
 
   void removeDevice(String key) {
@@ -150,58 +179,17 @@ class _RoomDetailPageState extends BasePageState {
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
+              padding: EdgeInsets.only(top: 5.sp),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                  color: device.state == 0 ? Colors.white54: Colors.blue,
+                  borderRadius: BorderRadius.all(Radius.circular(15.sp)),
+                  color: device.state == 0 ? Colors.white54 : Colors.blue,
                   border: Border.all(
                     width: 2,
                     color: Colors.black12,
-                  )
-              ),
+                  )),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      SizedBox(
-                        height: 100,
-                        width: 120,
-                        child: Image.asset(device.image.toString()),
-                      ),
-                      Spacer(),
-                      GestureDetector(
-                        onTap: (){
-                          setState(() {
-                            if(device.state == 0){
-                              _deviceRef
-                                  .child(
-                                      'smart_home/${Constants.housekey}/room/${Constants.roomkey}/device/$key/state')
-                                  .set(1);
-                            } else {
-                              _deviceRef
-                                  .child(
-                                      'smart_home/${Constants.housekey}/room/${Constants.roomkey}/device/$key/state')
-                                  .set(0);
-                            }
-
-                          });
-                        },
-                        child: SizedBox(
-                          height: 40,
-                          width: 40,
-                          child: Image.asset(
-                            device.button.toString(),
-                            color: device.state == 0
-                                ? Colors.black
-                                : Colors.indigo,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      )
-                    ],
-                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -215,21 +203,106 @@ class _RoomDetailPageState extends BasePageState {
                               fontWeight: FontWeight.bold),
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          _deviceRef
-                              .child(
-                                  'smart_home/${Constants.housekey}/room/${Constants.roomkey}/device/$key')
-                              .remove();
-                        },
-                        child: SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: Image.asset(
-                              'assets/images/theme/ic_remove.png',
-                              color: Colors.black),
-                        ),
+                      TextCustom(
+                        '${MultiLanguage.get('ttl_state_device')} ${device.state == 0 ? MultiLanguage.get('ttl_state_off') : MultiLanguage.get('ttl_state_on')}',
+                        color: Colors.black,
+                        size: 15.sp,
                       ),
+                      SizedBox(
+                        width: 30.sp,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 100,
+                        width: 120,
+                        child: Image.asset(device.image.toString()),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                if (device.state == 0) {
+                                  _deviceRef
+                                      .child(
+                                          'smart_home/${Constants.housekey}/room/${Constants.roomkey}/device/$key/state')
+                                      .set(1);
+                                } else {
+                                  _deviceRef
+                                      .child(
+                                          'smart_home/${Constants.housekey}/room/${Constants.roomkey}/device/$key/state')
+                                      .set(0);
+                                }
+                              });
+                            },
+                            child: Container(
+                              padding: EdgeInsets.fromLTRB(
+                                  100.sp, 10.sp, 5.sp, 15.sp),
+                              child: TextCustom(
+                                device.state == 0
+                                    ? MultiLanguage.get('btn_on')
+                                    : MultiLanguage.get('btn_off'),
+                                color: Colors.black,
+                                size: 25.sp,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10.sp,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                width: 20.sp,
+                              ),
+                              TextCustom(
+                                ' ${device.connect ? MultiLanguage.get('ttl_connected') : MultiLanguage.get('ttl_not_connected')}',
+                                size: 15.sp,
+                                color: Colors.black,
+                              ),
+                              SizedBox(
+                                width: 85.sp,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  UtilUI.showCustomAlertDialog(
+                                          context,
+                                          MultiLanguage.get(
+                                              'lbl_delete_device'),
+                                          isActionCancel: true)
+                                      .then((value) {
+                                    if (value == true) {
+                                      _deviceRef
+                                          .child(
+                                              'smart_home/${Constants.housekey}/room/${Constants.roomkey}/device/$key')
+                                          .remove();
+                                    }
+                                  });
+                                },
+                                child: SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: Image.asset(
+                                      'assets/images/theme/bin.png',
+                                      color: Colors.black),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10.sp,
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: 5.sp,
+                      )
                     ],
                   ),
                 ],
@@ -252,18 +325,22 @@ class _RoomDetailPageState extends BasePageState {
         ),
         child: Column(
             children: <Widget>[
-              TextCustom('Chọn Thiết Bị',color: Colors.red,size: 18.sp,),
-              SizedBox(
-                width: 160,
-                child: DropdownButton(
-                  hint: _deviceName == null
-                      ? Text('Chọn kiểu Thiết bị')
-                      : Text(
-                    _deviceName,
-                    style: TextStyle(color: Colors.black),
-                  ),
-                  isExpanded: true,
-                  iconSize: 30.0,
+          TextCustom(
+            MultiLanguage.get('ttl_type_device'),
+            color: Colors.red,
+            size: 18.sp,
+          ),
+          SizedBox(
+            width: 160,
+            child: DropdownButton(
+              hint: _deviceName == null
+                  ? Text(MultiLanguage.get('ttl_type_device'))
+                  : Text(
+                      _deviceName,
+                      style: TextStyle(color: Colors.black),
+                    ),
+              isExpanded: true,
+              iconSize: 30.0,
                   style: TextStyle(color: Colors.black),
                   items: _device.map(
                         (DeviceAdd list) {
@@ -273,18 +350,24 @@ class _RoomDetailPageState extends BasePageState {
                       );
                     },
                   ).toList(),
-                  onChanged: (val) {
-                    setState(
-                          () {
-                        _deviceName = val.toString();
-                        _change_image(_deviceName);
-                      },
-                    );
+              onChanged: (val) {
+                setState(
+                  () {
+                    _deviceName = val.toString();
+                    _change_image(_deviceName);
                   },
-                ),
-              ),
-              ButtonCustom(_add_device,TextCustom('Thêm thiết bị',color: Colors.blue,)),
-            ]),
+                );
+              },
+            ),
+          ),
+          ButtonCustom(
+              _add_device,
+              TextCustom(
+                MultiLanguage.get('btn_add_device'),
+                color: Colors.blue,
+                size: 13.sp,
+              )),
+        ]),
 
       );
     });
