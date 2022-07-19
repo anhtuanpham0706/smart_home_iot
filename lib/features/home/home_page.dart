@@ -340,7 +340,7 @@ class _HomePageState extends BasePageState {
                       children: [
                         Text(room.name.toString(),
                           style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 15.sp,
                               color: Colors.black,
                               fontWeight: FontWeight.bold),
                         ),
@@ -352,7 +352,7 @@ class _HomePageState extends BasePageState {
                             Text(
                               MultiLanguage.get('ttl_temp'),
                               style: TextStyle(
-                                  fontSize: 15,
+                                  fontSize: 15.sp,
                                   color: Colors.deepOrangeAccent,
                                   fontWeight: FontWeight.bold),
                             ),
@@ -360,13 +360,17 @@ class _HomePageState extends BasePageState {
                                 ? Text(
                                     '${room.temp.toInt()}*C',
                                     style: TextStyle(
-                                        fontSize: 15,
+                                        fontSize: 15.sp,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                   )
-                                : SizedBox(
-                                    height: 10.sp,
-                                  ),
+                                : Text(
+                              '',
+                              style: TextStyle(
+                                  fontSize: 15.sp,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ],
                         ),
                         SizedBox(
@@ -377,7 +381,7 @@ class _HomePageState extends BasePageState {
                             Text(
                               MultiLanguage.get('ttl_hum'),
                               style: TextStyle(
-                                  fontSize: 15,
+                                  fontSize: 15.sp,
                                   color: Colors.deepOrangeAccent,
                                   fontWeight: FontWeight.bold),
                             ),
@@ -389,9 +393,13 @@ class _HomePageState extends BasePageState {
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                   )
-                                : SizedBox(
-                                    height: 10.sp,
-                                  ),
+                                : const Text(
+                              '',
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ],
                         ),
                       ],
@@ -450,17 +458,27 @@ class _HomePageState extends BasePageState {
                           ),
                           GestureDetector(
                             onTap: () {
-                              UtilUI.showCustomAlertDialog(context,
-                                      MultiLanguage.get('lbl_delete_room'),
-                                      isActionCancel: true)
-                                  .then((value) {
-                                if (value == true) {
-                                  _roomRef
-                                      .child(
-                                          'smart_home/${Constants.housekey}/room/$key')
-                                      .remove();
-                                }
-                              });
+                              if(room.connect){
+                                UtilUI.showCustomAlertDialog(context,
+                                    MultiLanguage.get('lbl_remove_room'),
+                                    isActionCancel: false)
+                                    .then((value) {
+                                });
+                              } else {
+                                UtilUI.showCustomAlertDialog(context,
+                                    MultiLanguage.get('lbl_delete_room'),
+                                    isActionCancel: true)
+                                    .then((value) {
+                                  if (value == true) {
+                                    _roomRef
+                                        .child(
+                                        'smart_home/${Constants.housekey}/room/$key')
+                                        .remove();
+                                  }
+                                });
+
+                              }
+
                             },
                             child: SizedBox(
                               height: 20,
@@ -557,8 +575,8 @@ class _HomePageState extends BasePageState {
     final room = Room(
         name: _ctrRoom.text,
         image: _type_room,
-        temp: 28.1,
-        hum: 85.1,
+        temp: 0.0,
+        hum: 0.0,
         connect: false);
     if (_type_room == '') {
       UtilUI.showCustomAlertDialog(

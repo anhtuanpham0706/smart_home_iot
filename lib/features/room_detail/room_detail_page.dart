@@ -271,19 +271,30 @@ class _RoomDetailPageState extends BasePageState {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  UtilUI.showCustomAlertDialog(
-                                          context,
-                                          MultiLanguage.get(
-                                              'lbl_delete_device'),
-                                          isActionCancel: true)
-                                      .then((value) {
-                                    if (value == true) {
-                                      _deviceRef
-                                          .child(
-                                              'smart_home/${Constants.housekey}/room/${Constants.roomkey}/device/$key')
-                                          .remove();
-                                    }
-                                  });
+                                  if(device.connect){
+                                    UtilUI.showCustomAlertDialog(
+                                        context,
+                                        MultiLanguage.get(
+                                            'lbl_remove_device'),
+                                        isActionCancel: false)
+                                        .then((value) {
+                                    });
+                                  }else {
+                                    UtilUI.showCustomAlertDialog(
+                                        context,
+                                        MultiLanguage.get(
+                                            'lbl_delete_device'),
+                                        isActionCancel: true)
+                                        .then((value) {
+                                      if (value == true) {
+                                        _deviceRef
+                                            .child(
+                                            'smart_home/${Constants.housekey}/room/${Constants.roomkey}/device/$key')
+                                            .remove();
+                                      }
+                                    });
+                                  }
+
                                 },
                                 child: SizedBox(
                                   height: 20,

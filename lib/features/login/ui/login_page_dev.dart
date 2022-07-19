@@ -1,9 +1,11 @@
 
 
 
+import 'package:core_advn/common/multi_language.dart';
 import 'package:core_advn/common/ui/button_custom_transparent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_home_dev/common/language_key.dart';
 import 'package:smart_home_dev/common/smarthome_style.dart';
 import 'package:smart_home_dev/common/ui/button_custom.dart';
 import 'package:smart_home_dev/common/ui/header.dart';
@@ -54,7 +56,7 @@ class LoginPageDev extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(24.sp, 24.sp, 24.sp, 0),
                   child: ButtonCustom(
                     login,
-                    TextCustom('Đăng Nhập',
+                    TextCustom(MultiLanguage.get(LanguageKey.btnLogin),
                         size: 18.sp,
                         color: Colors.white,
                         fontFamily: 'Segoe UI',
@@ -66,22 +68,22 @@ class LoginPageDev extends StatelessWidget {
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 ButtonCustomTransparent(
                     forgotPassword,
-                    TextCustom('Quên mật khẩu',
+                    TextCustom(MultiLanguage.get(LanguageKey.btnForgot),
                         size: 14.sp,
                         color: SmartHomeStyle.primaryColor,
                         weight: FontWeight.w500),
                     padding: EdgeInsets.all(5.sp)),
                 ButtonCustomTransparent(
                     signUp,
-                    TextCustom('Đăng ký',
+                    TextCustom(MultiLanguage.get('btn_sign_up'),
                         size: 14.sp,
                         color: SmartHomeStyle.primaryColor,
                         weight: FontWeight.w500),
                     padding: EdgeInsets.all(5.sp)),
-                TextButton(
-                    onPressed: () => nextPage(),
-                    child: TextCustom('Bỏ qua',
-                        size: 14.sp, color: SmartHomeStyle.primaryColor))
+                // TextButton(
+                //     onPressed: () => nextPage(),
+                //     child: TextCustom('Bỏ qua',
+                //         size: 14.sp, color: SmartHomeStyle.primaryColor))
               ]),
               // LoginWithOthers(signInWithFaceBook, signInWithGoogle, signInWithAppleID,
               //     title: TextCustom(MultiLanguage.get('lbl_or_food'), size: 14.sp,
