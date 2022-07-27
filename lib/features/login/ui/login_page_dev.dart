@@ -41,7 +41,7 @@ class LoginPageDev extends StatelessWidget {
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(32.sp), topRight: Radius.circular(32.sp))
             ),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              TextCustom('Đăng nhập',
+              TextCustom(MultiLanguage.get('btn_login'),
                   size: 24.sp,
                   weight: FontWeight.w500,
                   color: const Color(0xFF434343)),
@@ -49,7 +49,8 @@ class LoginPageDev extends StatelessWidget {
               ThemeTextField(ctrEmail, focusEmail, Icons.email, 'Email',
                   type: TextInputType.emailAddress),
               SizedBox(height: 16.sp),
-              ThemeTextField(ctrPass, focusPass, Icons.lock_outline, 'Mật Khẩu',
+              ThemeTextField(ctrPass, focusPass, Icons.lock_outline,
+                  MultiLanguage.get('lbl_password'),
                   password: true, action: TextInputAction.done, funDone: login),
               Container(
                   width: 1.sw,

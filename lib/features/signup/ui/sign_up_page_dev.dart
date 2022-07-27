@@ -1,4 +1,5 @@
 
+import 'package:core_advn/common/multi_language.dart';
 import 'package:core_advn/common/ui/button_custom_transparent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -41,7 +42,7 @@ class SignUpPageDev extends StatelessWidget {
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(32.sp), topRight: Radius.circular(32.sp))
             ),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              TextCustom('Đăng ký',
+              TextCustom(MultiLanguage.get('btn_sign_up'),
                   size: 24.sp,
                   weight: FontWeight.w500,
                   color: const Color(0xFF434343)),
@@ -53,7 +54,8 @@ class SignUpPageDev extends StatelessWidget {
                   ctrEmail, focusEmail, Icons.mail_outline_outlined, 'Email',
                   type: TextInputType.emailAddress),
               SizedBox(height: 16.sp),
-              ThemeTextField(ctrPass, focusPass, Icons.lock_outline, 'Mật khẩu',
+              ThemeTextField(ctrPass, focusPass, Icons.lock_outline,
+                  MultiLanguage.get('lbl_password'),
                   password: true,
                   action: TextInputAction.done,
                   funDone: signUp),
@@ -62,7 +64,7 @@ class SignUpPageDev extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(24.sp, 24.sp, 24.sp, 24.sp),
                   child: ButtonCustom(
                     signUp,
-                    TextCustom('Đăng Ký',
+                    TextCustom(MultiLanguage.get('btn_sign_up'),
                         size: 18.sp,
                         color: Colors.white,
                         fontFamily: 'Segoe UI',
@@ -75,10 +77,11 @@ class SignUpPageDev extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: ButtonCustomTransparent(
                       back,
-                      TextCustom('Đăng nhập',
+                      TextCustom(MultiLanguage.get('btn_login'),
                           size: 14.sp,
-                          color: const Color(0xFFCB7120), weight: FontWeight.w500),
-                  padding: EdgeInsets.all(5.sp))
+                          color: SmartHomeStyle.primaryColor,
+                          weight: FontWeight.w500),
+                      padding: EdgeInsets.all(5.sp))
               )
             ])
         )

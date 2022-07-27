@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:core_advn/common/base_response.dart';
+import 'package:core_advn/common/core_constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:core_advn/common/base_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -161,7 +162,7 @@ Future GetValueWeather(String lat, String lon) async {
     'Charset': 'utf-8'
   };
   String filurl =
-      'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=5383ac85ab5fa5d68cc5dc2906229284&lang=vi';
+      'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=5383ac85ab5fa5d68cc5dc2906229284&lang=${CoreConstants.localeLang}';
   try {
     Weather data;
     http.Response response =

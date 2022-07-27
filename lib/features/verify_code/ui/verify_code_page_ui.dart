@@ -4,6 +4,7 @@
 
 import 'package:core_advn/common/ui/button_custom_transparent.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_home_dev/common/language_key.dart';
 import 'package:smart_home_dev/common/smarthome_style.dart';
 import 'package:smart_home_dev/common/ui/button_custom.dart';
 import 'package:smart_home_dev/common/ui/header.dart';
@@ -25,23 +26,34 @@ class VerifyCodePageUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      HeaderCustom('Xác thực số điện thoại', funBack: back),
-      Padding(padding: EdgeInsets.only(
-          top: 16.sp, bottom: 4.sp, left: 0.20.sw, right: 0.20.sw),
-          child: TextCustom('Vui lòng nhập mã gồm 6 chữ số để gửi đến số điện thoại của bạn',
-              size: 14.sp, align: TextAlign.center, color: const Color(0xFF2A2929))),
-      TextCustom('Gửi đến $phone',
+      HeaderCustom(MultiLanguage.get(LanguageKey.ttlVerifyPhone),
+          funBack: back),
+      Padding(
+          padding: EdgeInsets.only(
+              top: 16.sp, bottom: 4.sp, left: 0.20.sw, right: 0.20.sw),
+          child: TextCustom(MultiLanguage.get(LanguageKey.msgEnter6Digits),
+              size: 14.sp,
+              align: TextAlign.center,
+              color: const Color(0xFF2A2929))),
+      TextCustom(MultiLanguage.get(LanguageKey.lblSendTo) + phone,
           size: 12.sp, align: TextAlign.center, color: const Color(0xFF7B7B7B)),
-      BlocBuilder(bloc: bloc,
-          buildWhen: (oldState, newState) => newState is ValidateNumVerifyCodeState,
-          builder: (context, state) => state is! ValidateNumVerifyCodeState || !state.invalid
-              ? SizedBox(height: 32.sp) : Container()),
+      BlocBuilder(
+          bloc: bloc,
+          buildWhen: (oldState, newState) =>
+              newState is ValidateNumVerifyCodeState,
+          builder: (context, state) =>
+              state is! ValidateNumVerifyCodeState || !state.invalid
+                  ? SizedBox(height: 32.sp)
+                  : Container()),
       BlocBuilder(bloc: bloc,
           buildWhen: (oldState, newState) => newState is ValidateNumVerifyCodeState,
           builder: (context, state) => state is ValidateNumVerifyCodeState && state.invalid
               ? Padding(padding: EdgeInsets.only(top: 25.sp, bottom: 16.sp),
-              child: TextCustom('Mã xác thực không hợp lệ',
-                  size: 12.sp, align: TextAlign.center, color: Colors.red))
+              child: TextCustom(
+                          MultiLanguage.get(LanguageKey.msgInvalidCode),
+                          size: 12.sp,
+                          align: TextAlign.center,
+                          color: Colors.red))
               : Container()),
       Padding(padding: EdgeInsets.fromLTRB(20.sp, 0, 20.sp, 17.sp), child: TextField(controller: ctrNum,
           style: TextStyle(color: const Color(0xFF6B6B6B), fontSize: 18.sp, fontWeight: FontWeight.w500),
@@ -65,32 +77,40 @@ class VerifyCodePageUI extends StatelessWidget {
           builder: (context, state) {
             int count = countDown;
             if (state is CountDownVerifyCodeState) count = state.count;
-            return TextCustom(count.toString() + ' giây',
-                size: 14.sp, align: TextAlign.center, color: const Color(0xFF7B7B7B));
+            return TextCustom(
+                count.toString() + MultiLanguage.get(LanguageKey.lblSecond),
+                size: 14.sp,
+                align: TextAlign.center,
+                color: const Color(0xFF7B7B7B));
           }),
       Expanded(child: SizedBox(height: 24.sp)),
       BlocBuilder(bloc: bloc,
           buildWhen: (oldState, newState) => newState is ShowResendVerifyCodeState,
           builder: (context, state) => state is ShowResendVerifyCodeState && state.show ?
-          TextCustom('Tôi không nhận được mã',
-              size: 14.sp, align: TextAlign.center, color: const Color(0xFF7B7B7B))
+          TextCustom(MultiLanguage.get(LanguageKey.msgDidNotReceiveCode),
+                  size: 14.sp,
+                  align: TextAlign.center,
+                  color: const Color(0xFF7B7B7B))
               : const SizedBox()),
       BlocBuilder(bloc: bloc,
           buildWhen: (oldState, newState) => newState is ShowResendVerifyCodeState,
           builder: (context, state) => state is ShowResendVerifyCodeState && state.show ?
-          ButtonCustomTransparent(resend, TextCustom('Gửi lại',
-              size: 14.sp, color: Colors.red), padding: EdgeInsets.all(4.sp))
-              : const SizedBox()),
+          ButtonCustomTransparent(
+                      resend,
+                      TextCustom(MultiLanguage.get(LanguageKey.btnResend),
+                          size: 14.sp, color: Colors.red),
+                      padding: EdgeInsets.all(4.sp))
+                  : const SizedBox()),
       Container(
           width: 1.sw,
           padding: EdgeInsets.all(20.sp),
           child: ButtonCustom(
             confirm,
-            TextCustom('Xác nhận', size: 16.sp, weight: FontWeight.w500),
+            TextCustom(MultiLanguage.get(LanguageKey.btnConfirm),
+                size: 16.sp, weight: FontWeight.w500),
             elevation: 0,
             color: SmartHomeStyle.primaryColor,
           ))
     ]);
-
     }
   }
