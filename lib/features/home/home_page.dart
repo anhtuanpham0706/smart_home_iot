@@ -508,14 +508,13 @@ class _HomePageState extends BasePageState {
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState){
           return Container(
-            height: 300.0,
-            width: double.infinity,
-            margin: const EdgeInsets.symmetric(
+            height: 400.0,
+        width: double.infinity,
+        margin: const EdgeInsets.symmetric(
           horizontal: 20,
           vertical: 20,
         ),
-            child: Column(
-                children: <Widget>[
+        child: Column(children: <Widget>[
           TextCustom(
             MultiLanguage.get('ttl_info_room'),
             color: Colors.red,
