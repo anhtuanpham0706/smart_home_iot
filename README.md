@@ -1,6 +1,6 @@
-# smart_home_dev
+# smart_home
 
-A new Flutter project.
+Project flutter display weather information and control electrical devices in the home
 
 ## Getting Started
 
